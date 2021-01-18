@@ -9,7 +9,7 @@
         android:id="@+id/navigation_tasks"
         android:name="edu.rosehulman.todoheap.ui.home.HomeFragment"
         android:label="@string/title_tasks"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_tasks" />
 
     <fragment
         android:id="@+id/navigation_calendar"
