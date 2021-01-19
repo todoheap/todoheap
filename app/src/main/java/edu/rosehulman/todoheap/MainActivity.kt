@@ -1,14 +1,21 @@
 package edu.rosehulman.todoheap
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import edu.rosehulman.todoheap.data.FreeEvent
+import edu.rosehulman.todoheap.data.ScheduledEvent
 
 class MainActivity : AppCompatActivity() {
+
+    private val freeEvents = ArrayList<FreeEvent>()
+    private val scheduledEvents = ArrayList<ScheduledEvent>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,5 +29,22 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_tasks, R.id.navigation_calendar, R.id.navigation_account, R.id.navigation_settings))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+            //This code launches the fragment to add an event
+            //Problem: The FAB appears on all fragments for now
+            //TODO: Change FAB to not appear on the notifications and settings. Make a viewpager to do this, fab.show() and fab.hide()
+            //TODO: Add fragments to allow for variable task creation
+            Log.d("EventDebug", "Makes an Event")
+
+            //TODO: change to add an event that's more complex
+            freeEvents.add(FreeEvent("Senior Project", true, 0, 0, 0))
+            Log.d("EventDebug", "Events:")
+            for (e in freeEvents) {
+                Log.d("EventDebug", e.toString())
+            }
+
+
+        }
     }
 }
