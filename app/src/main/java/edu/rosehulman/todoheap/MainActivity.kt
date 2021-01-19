@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("EventDebug", "Makes an Event")
 
             //TODO: change to add an event that's more complex
-            freeEvents.add(FreeEvent("Senior Project", true, 0, 0, 0))
+            freeEvents.add(FreeEvent("Senior Project", true, 0, 0, 0, 4))
             Log.d("EventDebug", "Events:")
             for (e in freeEvents) {
                 Log.d("EventDebug", e.toString())
