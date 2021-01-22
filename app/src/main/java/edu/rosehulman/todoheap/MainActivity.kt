@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.firestore.FirebaseFirestore
 import edu.rosehulman.todoheap.data.FreeEvent
 import edu.rosehulman.todoheap.data.ScheduledEvent
 
@@ -16,6 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     private val freeEvents = ArrayList<FreeEvent>()
     private val scheduledEvents = ArrayList<ScheduledEvent>()
+
+    private val eventsRef = FirebaseFirestore.getInstance().collection("events")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +41,13 @@ class MainActivity : AppCompatActivity() {
             Log.d("EventDebug", "Makes an Event")
 
             //TODO: change to add an event that's more complex
-            freeEvents.add(FreeEvent("Senior Project", true, 0, 0, 0, 4))
-            Log.d("EventDebug", "Events:")
-            for (e in freeEvents) {
-                Log.d("EventDebug", e.toString())
-            }
+            val event = FreeEvent("Senior Project", true, 0, 0, 0, 4)
+            freeEvents.add(event)
+            eventsRef.add(event)
+//            Log.d("EventDebug", "Events:")
+//            for (e in freeEvents) {
+//                Log.d("EventDebug", e.toString())
+//            }
 
 
         }
