@@ -1,4 +1,4 @@
-package edu.rosehulman.todoheap.ui.dashboard
+package edu.rosehulman.todoheap.view.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

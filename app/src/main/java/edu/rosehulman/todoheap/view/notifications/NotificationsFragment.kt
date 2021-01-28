@@ -1,4 +1,4 @@
-package edu.rosehulman.todoheap.ui.settings
+package edu.rosehulman.todoheap.view.notifications
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,17 +7,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import edu.rosehulman.todoheap.R
-import edu.rosehulman.todoheap.ui.notifications.NotificationsViewModel
 
-class SettingsFragment : Fragment() {
+class NotificationsFragment : Fragment() {
 
+    private lateinit var notificationsViewModel: NotificationsViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_settings, container, false)
+        notificationsViewModel =
+                ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_account, container, false)
 //        val textView: TextView = root.findViewById(R.id.text_notifications)
 //        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
 //            textView.text = it

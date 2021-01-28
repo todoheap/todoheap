@@ -1,4 +1,4 @@
-package edu.rosehulman.todoheap.data.holders
+package edu.rosehulman.todoheap.view.dashboard
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

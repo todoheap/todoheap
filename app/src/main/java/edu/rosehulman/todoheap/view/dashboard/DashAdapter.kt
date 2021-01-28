@@ -1,8 +1,7 @@
-package edu.rosehulman.todoheap.data.adapters
+package edu.rosehulman.todoheap.view.dashboard
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import edu.rosehulman.todoheap.data.holders.DashHolder
 
 class DashAdapter: RecyclerView.Adapter<DashHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DashHolder {

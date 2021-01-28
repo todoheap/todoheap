@@ -10,8 +10,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
-import edu.rosehulman.todoheap.data.FreeEvent
-import edu.rosehulman.todoheap.data.ScheduledEvent
+import edu.rosehulman.todoheap.model.FreeEvent
+import edu.rosehulman.todoheap.model.ScheduledEvent
 
 class MainActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package edu.rosehulman.todoheap.data
+package edu.rosehulman.todoheap.model
 
 import java.util.*
 import kotlin.collections.ArrayList
