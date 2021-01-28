@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/navigation_tasks"
-        android:name="edu.rosehulman.todoheap.view.home.HomeFragment"
+        android:name="edu.rosehulman.todoheap.view.tasks.TasksFragment"
         android:label="@string/title_tasks"
         tools:layout="@layout/fragment_tasks" />
 
     <fragment
         android:id="@+id/navigation_calendar"
-        android:name="edu.rosehulman.todoheap.view.tasks.TasksFragment"
+        android:name="edu.rosehulman.todoheap.view.home.HomeFragment"
         android:label="@string/title_calendar"
         tools:layout="@layout/fragment_calendar" />
 

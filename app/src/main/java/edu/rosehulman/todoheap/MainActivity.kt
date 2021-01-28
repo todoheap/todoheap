@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.firestore.FirebaseFirestore
+import edu.rosehulman.todoheap.databinding.ActivityMainBinding
 import edu.rosehulman.todoheap.model.FreeEvent
 import edu.rosehulman.todoheap.model.ScheduledEvent
 
@@ -20,10 +22,13 @@ class MainActivity : AppCompatActivity() {
 
     private val eventsRef = FirebaseFirestore.getInstance().collection("events")
 
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        val navView: BottomNavigationView = binding.bottomNav
 
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
@@ -41,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("EventDebug", "Makes an Event")
 
             //TODO: change to add an event that's more complex
-            val event = FreeEvent("Senior Project", true, 0, 0, 0, 4)
+            val event = FreeEvent("Senior Project", true, 0, 0, 0, 4.0)
             freeEvents.add(event)
             eventsRef.add(event)
 //            Log.d("EventDebug", "Events:")

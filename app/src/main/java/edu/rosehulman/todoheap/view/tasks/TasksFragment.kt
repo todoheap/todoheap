@@ -23,7 +23,7 @@ class TasksFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentTasksBinding>(inflater,R.layout.fragment_calendar,container,false)
+        val binding = DataBindingUtil.inflate<FragmentTasksBinding>(inflater,R.layout.fragment_tasks,container,false)
         activity = requireContext() as MainActivity
         //setup recycler
         binding.recyclerTasks.let{
