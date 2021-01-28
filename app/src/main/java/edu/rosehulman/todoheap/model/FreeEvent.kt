@@ -7,6 +7,6 @@ data class FreeEvent(val name: String,
                     val priority: Int,
                     val procrastination: Int,
                     val enjoyability: Int,
-                     val workload: Int,
+                     val workload: Double,
                     val location: String? = null,
                     val deadline: Date? = null)

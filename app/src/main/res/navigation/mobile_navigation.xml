@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_calendar"
-        android:name="edu.rosehulman.todoheap.view.dashboard.DashboardFragment"
+        android:name="edu.rosehulman.todoheap.view.tasks.TasksFragment"
         android:label="@string/title_calendar"
         tools:layout="@layout/fragment_calendar" />
 
