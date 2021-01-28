@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import edu.rosehulman.todoheap.MainActivity
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.databinding.FragmentTasksBinding
+import edu.rosehulman.todoheap.view.RecyclerViewModelProvider
 import edu.rosehulman.todoheap.view.tasks.recycler.TaskCardAdapter
 import edu.rosehulman.todoheap.view.tasks.viewmodel.TaskCardViewModel
 
@@ -29,8 +30,9 @@ class TasksFragment : Fragment() {
         binding.recyclerTasks.let{
             it.layoutManager = LinearLayoutManager(requireContext())
             //TODO: Replace provider with getting from the model
-            val provider = {
-                ArrayList<TaskCardViewModel>()
+            val provider = object: RecyclerViewModelProvider<TaskCardViewModel>{
+                override fun get(position: Int) = TaskCardViewModel("","")
+                override val size: Int = 0
             }
             it.adapter = TaskCardAdapter(provider, requireContext())
             it.setHasFixedSize(true)

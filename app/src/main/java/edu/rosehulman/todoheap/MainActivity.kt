@@ -9,18 +9,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.firebase.firestore.FirebaseFirestore
+import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.ActivityMainBinding
 import edu.rosehulman.todoheap.model.FreeEvent
 import edu.rosehulman.todoheap.model.ScheduledEvent
 
 class MainActivity : AppCompatActivity() {
 
-    private val freeEvents = ArrayList<FreeEvent>()
     private val scheduledEvents = ArrayList<ScheduledEvent>()
-
-    private val eventsRef = FirebaseFirestore.getInstance().collection("events")
 
     private lateinit var binding: ActivityMainBinding
 
@@ -38,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener {
+        binding.fab.setOnClickListener {
             //This code launches the fragment to add an event
             //Problem: The FAB appears on all fragments for now
             //TODO: Change FAB to not appear on the notifications and settings. Make a viewpager to do this, fab.show() and fab.hide()
@@ -47,8 +43,7 @@ class MainActivity : AppCompatActivity() {
 
             //TODO: change to add an event that's more complex
             val event = FreeEvent("Senior Project", true, 0, 0, 0, 4.0)
-            freeEvents.add(event)
-            eventsRef.add(event)
+            Database.eventsCollection.add(event)
 //            Log.d("EventDebug", "Events:")
 //            for (e in freeEvents) {
 //                Log.d("EventDebug", e.toString())
