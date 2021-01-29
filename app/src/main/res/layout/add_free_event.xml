@@ -1,92 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-
-
-    <EditText
-        android:id="@+id/editTextEventName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/event_name" />
-
-    <EditText
-        android:id="@+id/editTextLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/location" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/deadline"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-        <Button
-            android:id="@+id/date_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Date"
-            android:layout_weight=".65"/>
-        <Button
-            android:id="@+id/time_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Time"
-            android:layout_weight="0.35"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="activity"
+            type="edu.rosehulman.todoheap.activities.AddFreeActivity"
             />
-    </LinearLayout>
-
-    <CheckBox
-        android:id="@+id/deadline_checkbox"
+    </data>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/deadline_disc"
-        />
+        android:layout_height="match_parent"
+        tools:context=".AddFreeActivity"
+        >
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/work_load_in_hours"
-        android:inputType="number"
-        />
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        android:backgroundTint="@color/primary"
+                        android:tint="@color/white"
+                        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+                        android:onClick="@{() -> activity.cancel()}"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/add_free_event"
+                        android:textSize="24sp"
+                        android:layout_weight="0.45"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="15dp"
+                        android:textColor="@color/white"
+                        />
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="@string/save"
+                        android:backgroundTint="@color/primary"
+                        android:layout_weight="0.35"
+                        android:onClick="@{() -> activity.save()}"
+                        />
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/procrastination_desc"
-        />
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choose"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+            >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/enjoyable_desc"
-        />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Choose"
-        />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/editTextEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/event_name" />
 
-</LinearLayout>
+            <EditText
+                android:id="@+id/editTextLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:hint="@string/location" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/deadline"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <DatePicker
+                    android:id="@+id/date_picker"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".4"
+                    android:datePickerMode="spinner"
+                    android:calendarViewShown="false"
+                    android:startYear="2021"
+                    android:scaleY=".75"
+                    android:scaleX=".75"
+                    />
+                <TimePicker
+                    android:id="@+id/time_picker"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:timePickerMode="spinner"
+                    android:scaleY=".75"
+                    android:scaleX=".75"
+                    />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/deadline_checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/deadline_disc"
+                />
+
+            <EditText
+                android:id="@+id/workload_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/work_load_in_hours"
+                android:inputType="number"
+                />
+
+            <RadioGroup
+                android:id="@+id/is_one_sitting_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <RadioButton
+                    android:id="@+id/is_one_sitting_false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/this_work_can_be_done_in_multiple_sessions"
+                    />
+                <RadioButton
+                    android:id="@+id/is_one_sitting_true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/this_work_must_be_done_in_one_sitting"
+                    />
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/procrastination_desc"
+                android:textSize="16sp"
+                />
+
+            <Spinner
+                android:id="@+id/procrastination_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enjoyable_desc"
+                android:textSize="16sp"
+                />
+            <Spinner
+                android:id="@+id/enjoyable_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                />
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

@@ -6,14 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.rosehulman.todoheap.MainActivity
+import edu.rosehulman.todoheap.activities.MainActivity
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.databinding.FragmentTasksBinding
-import edu.rosehulman.todoheap.view.RecyclerViewModelProvider
 import edu.rosehulman.todoheap.view.tasks.recycler.TaskCardAdapter
-import edu.rosehulman.todoheap.view.tasks.viewmodel.TaskCardViewModel
 
 class TasksFragment : Fragment() {
 
