@@ -28,13 +28,10 @@ class TasksFragment : Fragment() {
         activity = requireContext() as MainActivity
         //setup recycler
         binding.recyclerTasks.let{
-            it.layoutManager = LinearLayoutManager(requireContext())
-            //TODO: Replace provider with getting from the model
-            val provider = object: RecyclerViewModelProvider<TaskCardViewModel>{
-                override fun get(position: Int) = TaskCardViewModel("","")
-                override val size: Int = 0
-            }
-            it.adapter = TaskCardAdapter(provider, requireContext())
+            it.layoutManager = LinearLayoutManager(activity)
+            val taskCardAdapter = TaskCardAdapter(activity.app.taskPageModel, activity)
+            activity.app.taskPageModel.recyclerAdapter = taskCardAdapter
+            it.adapter = taskCardAdapter
             it.setHasFixedSize(true)
         }
 

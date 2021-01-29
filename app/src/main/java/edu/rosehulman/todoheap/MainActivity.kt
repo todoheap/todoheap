@@ -11,28 +11,32 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.ActivityMainBinding
+import edu.rosehulman.todoheap.model.App
 import edu.rosehulman.todoheap.model.FreeEvent
 import edu.rosehulman.todoheap.model.ScheduledEvent
+import edu.rosehulman.todoheap.model.task.TaskPageModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val scheduledEvents = ArrayList<ScheduledEvent>()
 
     private lateinit var binding: ActivityMainBinding
+    lateinit var app: App
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
+        initApp()
         val navView: BottomNavigationView = binding.bottomNav
 
         val navController = findNavController(R.id.nav_host_fragment)
+
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(setOf(
                 R.id.navigation_tasks, R.id.navigation_calendar, R.id.navigation_account, R.id.navigation_settings))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+        navController.navigate(R.id.navigation_tasks)
 
         binding.fab.setOnClickListener {
             //This code launches the fragment to add an event
@@ -51,6 +55,11 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+    }
+
+    private fun initApp() {
+        val taskPageModel = TaskPageModel()
+        app = App(taskPageModel)
     }
 
 }
