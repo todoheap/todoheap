@@ -5,20 +5,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import edu.rosehulman.todoheap.R
+import edu.rosehulman.todoheap.controller.AddFreeEventController
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.AddFreeEventBinding
 import edu.rosehulman.todoheap.model.FreeEvent
 import io.grpc.Deadline
 import java.util.*
 
-class AddFreeActivity: Activity() {
+class AddFreeActivity: AppCompatActivity() {
 
-    private lateinit var binding: AddFreeEventBinding
+    lateinit var binding: AddFreeEventBinding
+    lateinit var controller: AddFreeEventController
 
     private lateinit var enjoyabilitySpinner: Spinner
     private lateinit var procrastinationSpinner: Spinner
@@ -31,7 +35,14 @@ class AddFreeActivity: Activity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.add_free_event)
         binding.activity = this
+        controller = AddFreeEventController(this)
+        binding.controller = controller
+
         initFields()
+
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initFields() {
@@ -63,6 +74,22 @@ class AddFreeActivity: Activity() {
             deadline = Date(year, monthOfYear, dayOfMonth)
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_add_free_event, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            android.R.id.home -> {
+                cancel()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     fun cancel() {

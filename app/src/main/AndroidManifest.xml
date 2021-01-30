@@ -18,8 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.AddFreeActivity"
-            android:label="@string/add_free_event">
+        <activity
+            android:name=".activities.AddFreeActivity"
+            android:label="@string/add_free_event"
+            android:theme="@style/Theme.TodoHeap.NoActionBar">
+
         </activity>
     </application>
 

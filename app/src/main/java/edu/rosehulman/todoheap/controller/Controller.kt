@@ -5,7 +5,9 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import edu.rosehulman.todoheap.R
@@ -42,5 +44,7 @@ class Controller(val context: Context) {
         Log.d("EventDebug", "Scheduled Clicked")
         dialog.dismiss()
     }
+
+
 
 }

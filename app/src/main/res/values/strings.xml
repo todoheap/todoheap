@@ -15,7 +15,8 @@
     <string name="add_scheduled_event">Add Scheduled Event</string>
     <string name="this_work_can_be_done_in_multiple_sessions">This work can be done in multiple sessions</string>
     <string name="this_work_must_be_done_in_one_sitting">This work must be done in one sitting</string>
-    <string name="save">Save</string>
+
+    <string name="action_save">Save</string>
 
     <string-array name="procrastination_options">
         <item>As Soon As Possible</item>
