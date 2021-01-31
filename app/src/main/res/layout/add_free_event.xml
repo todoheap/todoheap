@@ -4,12 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="activity"
-            type="edu.rosehulman.todoheap.activities.AddFreeActivity"
-            />
-        <variable
             name="controller"
             type="edu.rosehulman.todoheap.controller.ControllerBase" />
+        <variable
+            name="model"
+            type="edu.rosehulman.todoheap.viewmodel.FreeEventInputViewModel"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -28,28 +27,13 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/Theme.TodoHeap.PopupOverlay"
-
                 />
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:orientation="horizontal">-->
-
-
-<!--                    <Button-->
-<!--                        android:layout_width="0dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:text="@string/save"-->
-<!--                        android:backgroundTint="@color/primary"-->
-<!--                        android:layout_weight="0.35"-->
-<!--                        android:onClick="@{() -> activity.save()}"-->
-<!--                        />-->
-<!--                </LinearLayout>-->
 
 
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -63,9 +47,8 @@
                 android:id="@+id/editTextEventName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
                 android:hint="@string/event_name"
+                android:text="@={model.eventName}"
                 android:onFocusChange="@{(v,f)->controller.hideKeyboardOnLoseFocus(v,f)}"
                 />
 
@@ -73,8 +56,8 @@
                 android:id="@+id/editTextLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textPersonName"
+                android:inputType="text"
+                android:text="@={model.location}"
                 android:hint="@string/location"
                 android:onFocusChange="@{(v,f)->controller.hideKeyboardOnLoseFocus(v,f)}"
                />
@@ -87,30 +70,33 @@
                 android:focusableInTouchMode="true"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:focusableInTouchMode="true"
                 >
+                <!-- TODO: change to a dialog to pick deadline -->
                 <DatePicker
                     android:id="@+id/date_picker"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight=".4"
+                    android:layout_weight=".5"
                     android:datePickerMode="spinner"
                     android:calendarViewShown="false"
-                    android:startYear="2021"
-                    android:scaleY=".75"
-                    android:scaleX=".75"
+                    android:year="@={model.deadline.year}"
+                    android:month="@={model.deadline.month}"
+                    android:day="@={model.deadline.d}"
+                    android:scaleY="1"
+                    android:scaleX="1"
                     />
                 <TimePicker
                     android:id="@+id/time_picker"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.6"
+                    android:layout_weight="0.5"
                     android:timePickerMode="spinner"
-                    android:scaleY=".75"
-                    android:scaleX=".75"
+                    android:scaleY="1"
+                    android:scaleX="0.75"
                     />
             </LinearLayout>
 

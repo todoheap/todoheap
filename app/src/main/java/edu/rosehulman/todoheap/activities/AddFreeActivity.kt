@@ -16,6 +16,7 @@ import edu.rosehulman.todoheap.controller.AddFreeEventController
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.AddFreeEventBinding
 import edu.rosehulman.todoheap.model.FreeEvent
+import edu.rosehulman.todoheap.viewmodel.FreeEventInputViewModel
 import io.grpc.Deadline
 import java.util.*
 
@@ -23,9 +24,10 @@ class AddFreeActivity: AppCompatActivity() {
 
     lateinit var binding: AddFreeEventBinding
     lateinit var controller: AddFreeEventController
+    lateinit var model: FreeEventInputViewModel
 
-    private lateinit var enjoyabilitySpinner: Spinner
-    private lateinit var procrastinationSpinner: Spinner
+    //private lateinit var enjoyabilitySpinner: Spinner
+    //private lateinit var procrastinationSpinner: Spinner
 
     private var enjoyability = 0
     private var procrastination = 0
@@ -34,9 +36,9 @@ class AddFreeActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.add_free_event)
-        binding.activity = this
         controller = AddFreeEventController(this)
         binding.controller = controller
+        model = FreeEventInputViewModel()
 
         initFields()
 
@@ -46,8 +48,8 @@ class AddFreeActivity: AppCompatActivity() {
     }
 
     private fun initFields() {
-        enjoyabilitySpinner = findViewById(R.id.enjoyable_spinner)
-        procrastinationSpinner = findViewById(R.id.procrastination_spinner)
+       // enjoyabilitySpinner = findViewById(R.id.enjoyable_spinner)
+       // procrastinationSpinner = findViewById(R.id.procrastination_spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
             this,
@@ -57,7 +59,7 @@ class AddFreeActivity: AppCompatActivity() {
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
-            enjoyabilitySpinner.adapter = adapter
+            binding.enjoyableSpinner.adapter = adapter
         }
 
         // Do the same here for the other spinner
@@ -67,7 +69,7 @@ class AddFreeActivity: AppCompatActivity() {
             android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            procrastinationSpinner.adapter = adapter
+            binding.procrastinationSpinner.adapter = adapter
         }
 
         findViewById<DatePicker>(R.id.date_picker).setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
@@ -86,6 +88,10 @@ class AddFreeActivity: AppCompatActivity() {
         return when(item.itemId){
             android.R.id.home -> {
                 cancel()
+                true
+            }
+            R.id.action_save -> {
+                save()
                 true
             }
             else -> super.onOptionsItemSelected(item)
