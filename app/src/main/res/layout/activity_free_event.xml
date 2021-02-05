@@ -8,7 +8,7 @@
             type="edu.rosehulman.todoheap.controller.FreeEventController" />
         <variable
             name="model"
-            type="edu.rosehulman.todoheap.input.FreeEventInputViewModel"/>
+            type="edu.rosehulman.todoheap.input.FreeEventInputModel"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -19,7 +19,9 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/Theme.TodoHeap.AppBarOverlay">
+            android:theme="@style/Theme.TodoHeap.AppBarOverlay"
+
+            >
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -31,42 +33,48 @@
 
 
         </com.google.android.material.appbar.AppBarLayout>
-
+        <ScrollView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
         <LinearLayout
             android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            android:clickable="true"
-            android:focusableInTouchMode="true"
             >
 
 
             <EditText
-                android:id="@+id/editTextEventName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/event_name"
+                android:hint="@string/form_event_name"
                 android:text="@={model.eventName}"
                 android:onFocusChange="@{(v,f)->controller.hideKeyboardOnLoseFocus(v,f)}"
                 />
 
             <EditText
-                android:id="@+id/editTextLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:text="@={model.location}"
-                android:hint="@string/location"
+                android:hint="@string/form_location"
                 android:onFocusChange="@{(v,f)->controller.hideKeyboardOnLoseFocus(v,f)}"
                />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/form_work_load"
+                android:text="@={model.workLoad}"
+                android:inputType="numberDecimal"
+                android:onFocusChange="@{(v,f)->controller.hideKeyboardOnLoseFocus(v,f)}"
+                />
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/deadline"
-                android:clickable="true"
-                android:focusableInTouchMode="true"
+                android:text="@string/form_deadline"
+                style="@style/Theme.TodoHeap.FormDescription"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -101,32 +109,24 @@
             <CheckBox
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/deadline_disc"
+                android:text="@string/form_no_deadline_desc"
                 android:onClick="@{(v)->controller.updateView().hideKeyboard(v)}"
                 android:checked="@={model.noDeadline}"
                 />
 
-            <EditText
-                android:id="@+id/workload_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/work_load_in_hours"
-                android:text="@={model.workLoad}"
-                android:inputType="numberDecimal"
-                android:onFocusChange="@{(v,f)->controller.hideKeyboardOnLoseFocus(v,f)}"
-                />
+
 
             <RadioGroup
                 android:id="@+id/is_one_sitting_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:layout_marginTop="20dp"
                 >
                 <RadioButton
                     android:id="@+id/is_one_sitting_false"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/this_work_can_be_done_in_multiple_sessions"
+                    android:text="@string/form_no_one_sitting_desc"
                     android:onClick="@{(v)->controller.hideKeyboard(v)}"
                     android:checked="@{!model.oneSitting}"
                     />
@@ -134,7 +134,7 @@
                     android:id="@+id/is_one_sitting_true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/this_work_must_be_done_in_one_sitting"
+                    android:text="@string/form_one_sitting_desc"
                     android:onClick="@{(v)->controller.hideKeyboard(v)}"
                     android:checked="@={model.oneSitting}"
                     />
@@ -144,10 +144,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/procrastination_desc"
-                android:textSize="16sp"
-                android:clickable="true"
-                android:focusableInTouchMode="true"
+                android:text="@string/form_procrastination_desc"
+                style="@style/Theme.TodoHeap.FormDescription"
                 />
 
             <Spinner
@@ -159,17 +157,28 @@
                 android:selectedItemPosition="@={model.procrastination}"
 
                 />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/enjoyable_desc"
-                android:clickable="true"
-                android:focusableInTouchMode="true"
-                android:textSize="16sp"
+                android:text="@string/form_priority_desc"
+                style="@style/Theme.TodoHeap.FormDescription"
                 />
             <Spinner
-                android:id="@+id/enjoyable_spinner"
+                android:id="@+id/priority_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:focusableInTouchMode="true"
+                android:selectedItemPosition="@={model.priority}"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/form_enjoyablility_desc"
+                style="@style/Theme.TodoHeap.FormDescription"
+                />
+            <Spinner
+                android:id="@+id/enjoyablility_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -178,6 +187,6 @@
                 />
 
         </LinearLayout>
-
+        </ScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

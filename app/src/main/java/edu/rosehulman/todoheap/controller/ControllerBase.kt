@@ -9,8 +9,8 @@ import androidx.databinding.DataBindingUtil
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.databinding.DialogInputDateBinding
 import edu.rosehulman.todoheap.databinding.DialogInputTimeBinding
-import edu.rosehulman.todoheap.input.DateInputViewModel
-import edu.rosehulman.todoheap.input.TimeInputViewModel
+import edu.rosehulman.todoheap.input.DateInputModel
+import edu.rosehulman.todoheap.input.TimeInputModel
 
 abstract class ControllerBase(
     private val activity: AppCompatActivity
@@ -36,7 +36,7 @@ abstract class ControllerBase(
 
     fun promptDate(initYear: Int, initMonth: Int, initDay: Int, callback: (year: Int, month: Int, dayOfMonth: Int)->Unit) {
         val binding = DataBindingUtil.inflate<DialogInputDateBinding>(activity.layoutInflater, R.layout.dialog_input_date, null, false)
-        val model = DateInputViewModel(initYear, initMonth, initDay)
+        val model = DateInputModel(initYear, initMonth, initDay)
         binding.model = model
         AlertDialog.Builder(activity)
             .setTitle(R.string.title_dialog_date)
@@ -50,7 +50,7 @@ abstract class ControllerBase(
 
     fun promptTime(initHour: Int, initMinute: Int, callback: (hour: Int, minute: Int)->Unit) {
         val binding = DataBindingUtil.inflate<DialogInputTimeBinding>(activity.layoutInflater, R.layout.dialog_input_time, null, false)
-        val model = TimeInputViewModel(initHour, initMinute)
+        val model = TimeInputModel(initHour, initMinute)
         binding.model = model
         AlertDialog.Builder(activity)
             .setTitle(R.string.title_dialog_time)
@@ -61,4 +61,14 @@ abstract class ControllerBase(
             }.create()
             .show()
     }
+
+    fun showAlert(title: Int, content: Int){
+        AlertDialog.Builder(activity)
+            .setTitle(title)
+            .setMessage(content)
+            .setPositiveButton(android.R.string.ok){ _ , _->
+            }.create()
+            .show()
+    }
+
 }

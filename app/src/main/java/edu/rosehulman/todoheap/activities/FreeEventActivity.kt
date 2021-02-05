@@ -12,15 +12,15 @@ import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.controller.FreeEventController
 import edu.rosehulman.todoheap.databinding.ActivityFreeEventBinding
+import edu.rosehulman.todoheap.input.FreeEventInputModel
 import edu.rosehulman.todoheap.model.FreeEvent
-import edu.rosehulman.todoheap.input.FreeEventInputViewModel
 import java.util.*
 
 class FreeEventActivity: AppCompatActivity() {
 
     lateinit var binding: ActivityFreeEventBinding
     lateinit var controller: FreeEventController
-    lateinit var model: FreeEventInputViewModel
+    lateinit var model: FreeEventInputModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,27 +30,34 @@ class FreeEventActivity: AppCompatActivity() {
 
         initModel()
         initFields()
+        initToolbar()
 
+    }
+
+    private fun initToolbar() {
+        intent?.getStringExtra(Constants.KEY_SET_TITLE)?.let(binding.toolbar::setTitle)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_close_24)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun initModel(){
-        val now = Calendar.getInstance();
-        model = FreeEventInputViewModel(
-            year = now.get(Calendar.YEAR),
-            dayOfMonth = now.get(Calendar.DAY_OF_MONTH),
-            month = now.get(Calendar.MONTH),
-            hour = now.get(Calendar.HOUR_OF_DAY),
-            minute = now.get(Calendar.MINUTE))
+        val now = Calendar.getInstance()
+        model = FreeEventInputModel()
+        model.setDeadlineToCurrentTime()
+        if(intent!=null){
+            val event = intent.getParcelableExtra<FreeEvent>(Constants.KEY_FREE_EVENT)
+            event?.let(model::copyFromEvent)
+        }
+
         binding.model = model
     }
 
 
     private fun initFields() {
-        initSpinner(binding.enjoyableSpinner, R.array.enjoyability_options)
-        initSpinner(binding.procrastinationSpinner, R.array.procrastination_options)
+        initSpinner(binding.enjoyablilitySpinner, R.array.form_enjoyability_options)
+        initSpinner(binding.procrastinationSpinner, R.array.form_procrastination_options)
+        initSpinner(binding.prioritySpinner,R.array.form_priority_options)
 
     }
 
@@ -86,6 +93,11 @@ class FreeEventActivity: AppCompatActivity() {
     }
 
     fun save() {
+        val errorId = model.validateInput()
+        if(errorId!=null){
+            controller.showAlert(R.string.title_dialog_error,errorId)
+            return
+        }
         val newEvent = model.toEvent()
 
         Log.d("EventDebug", "New Event Added: $newEvent")
@@ -94,6 +106,7 @@ class FreeEventActivity: AppCompatActivity() {
 
         val returnIntent = Intent().putExtra(Constants.KEY_FREE_EVENT, newEvent)
         if(id!=null) returnIntent.putExtra(Constants.KEY_FREE_EVENT_ID,id)
+
 
         setResult(Constants.RESULT_GOOD, returnIntent)
         finish()

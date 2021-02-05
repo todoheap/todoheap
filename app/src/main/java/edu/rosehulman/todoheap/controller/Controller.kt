@@ -4,6 +4,7 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
@@ -31,8 +32,9 @@ class Controller(private val activity: MainActivity) {
 
     fun onClickFree() {
         Log.d("EventDebug", "Free Clicked")
-        val addFreeIntent = Intent(activity, FreeEventActivity::class.java)
-        activity.startActivityForResult(addFreeIntent, Constants.RC_ADD_FREE_EVENT)
+        val intent = Intent(activity, FreeEventActivity::class.java)
+            .putExtra(Constants.KEY_SET_TITLE,activity.resources.getString(R.string.title_add_free_event))
+        activity.startActivityForResult(intent, Constants.RC_ADD_FREE_EVENT)
         dialog.dismiss()
     }
 
@@ -42,10 +44,11 @@ class Controller(private val activity: MainActivity) {
     }
 
     fun editFreeEvent(position: Int) {
-        val intent = Intent(activity, FreeEventActivity::class.java)
         val event = activity.app.taskPageModel[position]
-        intent.putExtra(Constants.KEY_FREE_EVENT_ID, event.id)
-        intent.putExtra(Constants.KEY_FREE_EVENT, event)
+        val intent = Intent(activity, FreeEventActivity::class.java)
+            .putExtra(Constants.KEY_FREE_EVENT_ID, event.id)
+            .putExtra(Constants.KEY_FREE_EVENT, event)
+            .putExtra(Constants.KEY_SET_TITLE,activity.resources.getString(R.string.title_edit_free_event))
         activity.startActivityForResult(intent, Constants.RC_EDIT_FREE_EVENT)
 
     }
