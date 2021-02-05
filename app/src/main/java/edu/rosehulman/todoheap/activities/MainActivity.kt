@@ -1,5 +1,6 @@
 package edu.rosehulman.todoheap.activities
 
+import android.accounts.Account
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -12,6 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.controller.Controller
+import edu.rosehulman.todoheap.controller.account.AccountController
 import edu.rosehulman.todoheap.databinding.ActivityMainBinding
 import edu.rosehulman.todoheap.model.App
 import edu.rosehulman.todoheap.model.task.TaskPageModel
@@ -23,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     lateinit var app: App
     lateinit var controller: Controller
+    lateinit var accountController: AccountController
+    lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         initController()
         val navView: BottomNavigationView = binding.bottomNav
 
-        val navController = findNavController(R.id.nav_host_fragment)
+        navController = findNavController(R.id.nav_host_fragment)
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -43,15 +47,27 @@ class MainActivity : AppCompatActivity() {
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        navController.addOnDestinationChangedListener {controller, destination, bundle ->
-            when (destination.label) {
-                "Account" -> AccountFragment()
-            }
-        }
 
         navView.setupWithNavController(navController)
         navController.navigate(R.id.navigation_tasks)
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            if(destination.id==R.id.navigation_account || destination.id==R.id.navigation_settings){
+                binding.fab.hide()
+            }else{
+                binding.fab.show()
+            }
 
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        accountController.setupListener()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        accountController.removeListener()
     }
 
     private fun initApp() {
@@ -62,6 +78,12 @@ class MainActivity : AppCompatActivity() {
     private fun initController() {
         controller = Controller(this)
         binding.controller = controller
+        accountController = AccountController(this)
+    }
+
+    fun loginOK(){
+        app.init()
+        navController.navigate(R.id.navigation_tasks)
     }
 
 }

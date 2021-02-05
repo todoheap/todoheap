@@ -6,7 +6,9 @@ import edu.rosehulman.todoheap.model.task.TaskPageModel
  * Main model for the app
  */
 class App(
-        val taskPageModel: TaskPageModel
+    val taskPageModel: TaskPageModel
 ) {
-
+    fun init(){
+                taskPageModel.init();
+        }
 }

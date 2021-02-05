@@ -123,14 +123,14 @@ class AddFreeActivity: AppCompatActivity() {
             nameEditText.text.toString(),
             isMultipleSessonsTrue && !isMultipleSessionsFalse,
             0, procrastination, enjoyability,
-            Integer.parseInt(workloadEditText.text.toString()).toDouble(),
+            java.lang.Double.parseDouble(workloadEditText.text.toString()),
             locationEditText.text.toString(),
             (if (hasDeadline) deadline else null)
         )
 
         Log.d("EventDebug", "New Event Added: $newEvent")
 
-        Database.eventsCollection.add(newEvent)
+        Database.freeEventsCollection.add(newEvent)
 
         Log.d("EventDebug", "New Event Added: $newEvent")
         finish()

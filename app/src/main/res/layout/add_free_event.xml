@@ -113,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/work_load_in_hours"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:onFocusChange="@{(v,f)->controller.hideKeyboardOnLoseFocus(v,f)}"
                 />
 
@@ -128,14 +128,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/this_work_can_be_done_in_multiple_sessions"
-                    android:focusableInTouchMode="true"
+                    android:onClick="@{(v)->controller.hideKeyboard(v)}"
                     />
                 <RadioButton
                     android:id="@+id/is_one_sitting_true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/this_work_must_be_done_in_one_sitting"
-                    android:focusableInTouchMode="true"
+                    android:onClick="@{(v)->controller.hideKeyboard(v)}"
                     />
 
             </RadioGroup>

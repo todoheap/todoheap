@@ -2,6 +2,7 @@ package edu.rosehulman.todoheap.model.task
 
 import android.util.Log
 import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.ListenerRegistration
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.model.FreeEvent
@@ -13,9 +14,18 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
     var recyclerAdapter: TaskCardAdapter? = null
     //TODO: Keep the list sorted??
     private val taskList = ArrayList<FreeEvent>()
+    private var freeEventsListenerRegistration: ListenerRegistration?=null
 
-    init {
-        Database.eventsCollection.addSnapshotListener { value, error ->
+
+    fun init(){
+        taskList.clear()
+        recyclerAdapter?.notifyDataSetChanged()
+        initDBListener()
+    }
+
+    private fun initDBListener(){
+        freeEventsListenerRegistration?.remove()
+        Database.freeEventsCollection.addSnapshotListener { value, error ->
             if(error!=null) {
                 Log.e(Constants.TAG, "Error in TaskPageModel: $error")
                 return@addSnapshotListener
