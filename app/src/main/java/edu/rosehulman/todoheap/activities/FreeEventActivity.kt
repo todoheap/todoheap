@@ -1,9 +1,7 @@
 package edu.rosehulman.todoheap.activities
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.SystemClock
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -11,34 +9,38 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.google.firebase.Timestamp
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
-import edu.rosehulman.todoheap.controller.AddFreeEventController
-import edu.rosehulman.todoheap.data.Database
-import edu.rosehulman.todoheap.databinding.AddFreeEventBinding
+import edu.rosehulman.todoheap.controller.FreeEventController
+import edu.rosehulman.todoheap.databinding.ActivityFreeEventBinding
 import edu.rosehulman.todoheap.model.FreeEvent
 import edu.rosehulman.todoheap.viewmodel.FreeEventInputViewModel
-import io.grpc.Deadline
 import java.util.*
 
-class AddFreeActivity: AppCompatActivity() {
+class FreeEventActivity: AppCompatActivity() {
 
-    lateinit var binding: AddFreeEventBinding
-    lateinit var controller: AddFreeEventController
+    lateinit var binding: ActivityFreeEventBinding
+    lateinit var controller: FreeEventController
     lateinit var model: FreeEventInputViewModel
 
     private var enjoyability = 0
     private var procrastination = 0
-    private var deadline: Date = Calendar.getInstance().time
+    //private var deadline: Date = Calendar.getInstance().time
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.add_free_event)
-        controller = AddFreeEventController(this)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_free_event)
+        controller = FreeEventController(this)
         binding.controller = controller
-        model = FreeEventInputViewModel()
 
+        val now = Calendar.getInstance();
+        model = FreeEventInputViewModel(
+            year = now.get(Calendar.YEAR),
+            dayOfMonth = now.get(Calendar.DAY_OF_MONTH),
+            month = now.get(Calendar.MONTH),
+            hour = now.get(Calendar.HOUR_OF_DAY),
+            minute = now.get(Calendar.MINUTE))
+        binding.model = model
         initFields()
 
         setSupportActionBar(binding.toolbar)
@@ -101,10 +103,10 @@ class AddFreeActivity: AppCompatActivity() {
 
         }
 
-        findViewById<DatePicker>(R.id.date_picker).setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
-            deadline = Date(year, monthOfYear, dayOfMonth)
-            Timestamp(deadline)
-        }
+//        findViewById<DatePicker>(R.id.date_picker).setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
+//            deadline = Date(year, monthOfYear, dayOfMonth)
+//            Timestamp(deadline)
+//        }
 
     }
 
@@ -134,36 +136,30 @@ class AddFreeActivity: AppCompatActivity() {
     }
 
     fun save() {
-        Log.d("EventDebug", "adding new event")
-
         val nameEditText = findViewById<EditText>(R.id.editTextEventName)
-        Log.d("EventDebug", "Got past name")
         val locationEditText = findViewById<EditText>(R.id.editTextLocation)
-        Log.d("EventDebug", "Got past location")
-        val hasDeadline = !findViewById<CheckBox>(R.id.deadline_checkbox).isChecked
-        Log.d("EventDebug", "Got past deadline")
+        //val hasDeadline = !findViewById<CheckBox>(R.id.deadline_checkbox).isChecked
         val workloadEditText = findViewById<EditText>(R.id.workload_edit_text)
-        Log.d("EventDebug", "Got past workload")
         val isMultipleSessonsTrue = findViewById<RadioButton>(R.id.is_one_sitting_true).isSelected
-        Log.d("EventDebug", "Got past multi1")
         val isMultipleSessionsFalse = findViewById<RadioButton>(R.id.is_one_sitting_false).isSelected
-        Log.d("EventDebug", "Got past multi2")
-
         val newEvent = FreeEvent(
             nameEditText.text.toString(),
             isMultipleSessonsTrue && !isMultipleSessionsFalse,
             0, procrastination, enjoyability,
             java.lang.Double.parseDouble(workloadEditText.text.toString()),
             locationEditText.text.toString(),
-            (if (hasDeadline) deadline else null)
+            if (model.noDeadline) null else model.deadlineTimestamp
         )
 
         Log.d("EventDebug", "New Event Added: $newEvent")
 
-        Database.freeEventsCollection.add(newEvent)
+        val id = intent.getStringExtra(Constants.KEY_FREE_EVENT_ID)
+        //Database.freeEventsCollection.add(newEvent)
 
-        Log.d("EventDebug", "New Event Added: $newEvent")
-        setResult(1, Intent().putExtra(Constants.FREE_EVENT, newEvent))
+        val returnIntent = Intent().putExtra(Constants.KEY_FREE_EVENT, newEvent)
+        if(id!=null) returnIntent.putExtra(Constants.KEY_FREE_EVENT_ID,id)
+
+        setResult(Constants.RESULT_GOOD, returnIntent)
         finish()
 
     }

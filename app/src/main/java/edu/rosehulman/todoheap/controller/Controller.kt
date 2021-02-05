@@ -1,35 +1,28 @@
 package edu.rosehulman.todoheap.controller
 
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
-import edu.rosehulman.todoheap.activities.AddFreeActivity
+import edu.rosehulman.todoheap.activities.FreeEventActivity
 import edu.rosehulman.todoheap.activities.MainActivity
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.RadioEventTypeBinding
-import edu.rosehulman.todoheap.model.FreeEvent
-import java.lang.RuntimeException
 
-class Controller(val context: MainActivity) {
+class Controller(private val activity: MainActivity) {
 
     private lateinit var dialog: AlertDialog
 
     fun onClickFab() {
 
         Log.d("EventDebug", "Makes an Event")
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(activity)
 
         //Inflate the view and bind the data
-        val bind = DataBindingUtil.inflate<RadioEventTypeBinding>(LayoutInflater.from(context), R.layout.radio_event_type, null, false)
+        val bind = DataBindingUtil.inflate<RadioEventTypeBinding>(LayoutInflater.from(activity), R.layout.radio_event_type, null, false)
         bind.controller = this
         builder.setView(bind.root)
         dialog = builder.create()
@@ -38,8 +31,8 @@ class Controller(val context: MainActivity) {
 
     fun onClickFree() {
         Log.d("EventDebug", "Free Clicked")
-        val addFreeIntent = Intent(context, AddFreeActivity::class.java)
-        context.startActivityForResult(addFreeIntent, 1)
+        val addFreeIntent = Intent(activity, FreeEventActivity::class.java)
+        activity.startActivityForResult(addFreeIntent, Constants.RC_ADD_FREE_EVENT)
         dialog.dismiss()
     }
 
@@ -48,10 +41,18 @@ class Controller(val context: MainActivity) {
         dialog.dismiss()
     }
 
-    fun editFreeEvent() {
+    fun editFreeEvent(position: Int) {
+        val intent = Intent(activity, FreeEventActivity::class.java)
+        val event = activity.app.taskPageModel[position]
+        intent.putExtra(Constants.KEY_FREE_EVENT_ID, event.id)
+        intent.putExtra(Constants.KEY_FREE_EVENT, event)
+        activity.startActivityForResult(intent, Constants.RC_EDIT_FREE_EVENT)
 
     }
 
+    fun deleteAt(position: Int) {
+        Database.freeEventsCollection.document(activity.app.taskPageModel[position].id?:"").delete()
+    }
 
 
 }

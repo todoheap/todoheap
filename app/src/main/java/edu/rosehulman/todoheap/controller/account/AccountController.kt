@@ -13,13 +13,21 @@ class AccountController(
     private val activity: MainActivity
 ) {
 
+    private var loggedIn = false
+
     private val authListener = FirebaseAuth.AuthStateListener {
         val user = it.currentUser
         if (user==null){
+            loggedIn = false
             launchLoginUI()
+
         }else{
             Log.d(Constants.TAG, "login ok $user");
-            activity.loginOK()
+            if(!loggedIn){
+                activity.loginOK()
+                loggedIn = true
+            }
+
         }
     }
 
@@ -32,6 +40,7 @@ class AccountController(
 
     fun onLogOut() {
         Database.signOut()
+
     }
 
     private fun launchLoginUI() {

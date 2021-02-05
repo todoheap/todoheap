@@ -4,12 +4,16 @@
         <variable
             name="viewModel"
             type="edu.rosehulman.todoheap.view.tasks.viewmodel.TaskCardViewModel" />
+        <variable
+            name="controller"
+            type="edu.rosehulman.todoheap.controller.TaskCardController" />
     </data>
     <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
+        android:onClick="@{() -> controller.onClick()}"
         >
         <RelativeLayout
             android:layout_width="match_parent"

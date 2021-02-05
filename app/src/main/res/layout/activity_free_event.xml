@@ -5,7 +5,7 @@
     <data>
         <variable
             name="controller"
-            type="edu.rosehulman.todoheap.controller.ControllerBase" />
+            type="edu.rosehulman.todoheap.controller.FreeEventController" />
         <variable
             name="model"
             type="edu.rosehulman.todoheap.viewmodel.FreeEventInputViewModel"/>
@@ -13,7 +13,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.AddFreeActivity"
+        tools:context=".activities.FreeEventActivity"
 
         >
         <com.google.android.material.appbar.AppBarLayout
@@ -61,43 +61,41 @@
                 android:hint="@string/location"
                 android:onFocusChange="@{(v,f)->controller.hideKeyboardOnLoseFocus(v,f)}"
                />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/deadline"
                 android:clickable="true"
-                android:focusableInTouchMode="true"/>
+                android:focusableInTouchMode="true"
+                />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:clickable="true"
                 android:focusableInTouchMode="true"
                 >
-                <!-- TODO: change to a dialog to pick deadline -->
-                <DatePicker
-                    android:id="@+id/date_picker"
+                <Button
+                    android:layout_margin="5dp"
+                    android:backgroundTint="@color/button_grey"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".5"
-                    android:datePickerMode="spinner"
-                    android:calendarViewShown="false"
-                    android:scaleY="1"
-                    android:scaleX="1"
-                    />
-                    <!--android:year="@={model.deadline.year}"
-                    android:month="@={model.deadline.month}"
-                    android:day="@={model.deadline.day}"-->
-                <TimePicker
-                    android:id="@+id/time_picker"
+                    android:layout_weight="6"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/format_date(model.month+1,model.dayOfMonth,model.year)}"
+                    android:textColor="@color/black"
+                    android:onClick="@{()->controller.selectDeadlineDate()}"
+                    android:enabled="@{!model.noDeadline}"/>
+
+                <Button
+                    android:layout_margin="5dp"
+                    android:backgroundTint="@color/button_grey"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5"
-                    android:timePickerMode="spinner"
-                    android:scaleY="1"
-                    android:scaleX="0.75"
-                    />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:text="@{model.pm?@string/format_time_pm(model.hourIn12,model.minute):@string/format_time_am(model.hour % 12,model.minute)}"
+                    android:textColor="@color/black"
+                    android:onClick="@{()->controller.selectDeadlineTime()}"
+                    android:enabled="@{!model.noDeadline}"/>
             </LinearLayout>
 
             <CheckBox
@@ -106,6 +104,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/deadline_disc"
                 android:onClick="@{(v)->controller.hideKeyboard(v)}"
+                android:checked="@={model.noDeadline}"
                 />
 
             <EditText

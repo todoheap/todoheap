@@ -1,6 +1,7 @@
 package edu.rosehulman.todoheap.model
 
 import android.os.Parcelable
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.parcelize.IgnoredOnParcel
@@ -15,8 +16,9 @@ data class FreeEvent(var name: String = "",
                     var enjoyability: Int = 0,
                      var workload: Double = 0.0,
                     var location: String? = null,
-                    var deadline: Date? = null) : Parcelable
+                    var deadline: Timestamp? = null) : Parcelable
 {
+    @IgnoredOnParcel
     @get: Exclude
     var id: String? = null
 

@@ -86,17 +86,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loginOK(){
+        Log.d(Constants.TAG,"INIT")
         app.init()
         navController.navigate(R.id.navigation_tasks)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val event = data?.getParcelableExtra<FreeEvent>(Constants.FREE_EVENT)
+        Log.d(Constants.TAG,"Result")
+        val event = data?.getParcelableExtra<FreeEvent>(Constants.KEY_FREE_EVENT)
         if (event != null) {
             when (requestCode) {
-                1 -> Database.freeEventsCollection.add(event)
-                2 -> Database.freeEventsCollection.document(event.id!!).set(event)
+                Constants.RC_ADD_FREE_EVENT -> Database.freeEventsCollection.add(event)
+                Constants.RC_EDIT_FREE_EVENT -> {
+                    val id = data?.getStringExtra(Constants.KEY_FREE_EVENT_ID)
+                    event.id = id
+                    Database.freeEventsCollection.document(id!!).set(event)
+                }
             }
         }
     }

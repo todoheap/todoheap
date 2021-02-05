@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.AddFreeActivity"
+            android:name=".activities.FreeEventActivity"
             android:label="@string/add_free_event"
             android:theme="@style/Theme.TodoHeap.NoActionBar">
 

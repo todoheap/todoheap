@@ -18,7 +18,7 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
 
 
     fun init(){
-        Log.d(Constants.TAG, "Hello World\n \n \n \n \n \n \n sp ac e" )
+        //Log.d(Constants.TAG, "Hello World\n \n \n \n \n \n \n sp ac e" )
         freeEventsListenerRegistration?.remove()
         taskList.clear()
         recyclerAdapter?.notifyDataSetChanged()
@@ -37,8 +37,8 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
                 val event = FreeEvent.fromSnapshot(docChange.document)
                 when(docChange.type){
                     DocumentChange.Type.ADDED -> {
-                        taskList.add(0, event)
-                        recyclerAdapter?.notifyItemInserted(0)
+                        val index = insertEventIntoSortedList(event)
+                        recyclerAdapter?.notifyItemInserted(index)
                     }
                     DocumentChange.Type.REMOVED -> {
                         taskList.indexOfFirst { it.id == event.id }.let {
@@ -48,8 +48,18 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
                     }
                     DocumentChange.Type.MODIFIED -> {
                         taskList.indexOfFirst { it.id == event.id }.let {
-                            taskList[it] = event
-                            recyclerAdapter?.notifyItemChanged(it)
+                            taskList.removeAt(it)
+                            val newIndex = insertEventIntoSortedList(event)
+                            if(newIndex!=it){
+                                recyclerAdapter?.notifyItemRemoved(it)
+                                recyclerAdapter?.notifyItemInserted(newIndex)
+                            }else{
+                                recyclerAdapter?.notifyItemChanged(it)
+                            }
+//
+//                            taskList[it] = event
+//                            recyclerAdapter?.notifyItemChanged(it)
+
                         }
                     }
                 }
@@ -57,11 +67,33 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
         }
     }
 
-    override fun get(position: Int): TaskCardViewModel {
+    override fun getViewModel(position: Int): TaskCardViewModel {
         //TODO: Set proper sub text
-        return TaskCardViewModel(taskList[position].name, taskList[position].toString())
+        return TaskCardViewModel(taskList[position].name, taskList[position].procrastination.toString())
     }
+
+    operator fun get(position: Int) = taskList[position]
 
     override val size: Int
         get() = taskList.size
+
+    private fun compareEvents(e1: FreeEvent, e2: FreeEvent): Int {
+        //algorithm is for now simple rank by procrastination
+        return e1.procrastination - e2.procrastination;
+    }
+
+    private fun insertEventIntoSortedList(e: FreeEvent): Int=
+        taskList.indexOfFirst { compareEvents(it,e)>0 }.let {
+            if(it>0){
+                taskList.add(it, e)
+                it
+            }else{
+                taskList.add(e)
+                taskList.size-1
+            }
+
+        }
+
+
+
 }

@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.rosehulman.todoheap.activities.MainActivity
 import edu.rosehulman.todoheap.R
+import edu.rosehulman.todoheap.controller.TaskCardSwipeCallback
 import edu.rosehulman.todoheap.databinding.FragmentTasksBinding
 import edu.rosehulman.todoheap.view.tasks.recycler.TaskCardAdapter
 
@@ -31,6 +33,8 @@ class TasksFragment : Fragment() {
             it.adapter = taskCardAdapter
             it.setHasFixedSize(true)
         }
+
+        ItemTouchHelper(TaskCardSwipeCallback(activity.controller)).attachToRecyclerView(binding.recyclerTasks)
 
         return binding.root
     }

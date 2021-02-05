@@ -1,7 +1,7 @@
 package edu.rosehulman.todoheap.view
 
 interface RecyclerViewModelProvider<T> {
-    operator fun get(position: Int): T
+    fun getViewModel(position: Int): T
 
     val size: Int
 }
