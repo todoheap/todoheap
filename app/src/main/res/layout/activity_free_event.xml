@@ -8,7 +8,7 @@
             type="edu.rosehulman.todoheap.controller.FreeEventController" />
         <variable
             name="model"
-            type="edu.rosehulman.todoheap.viewmodel.FreeEventInputViewModel"/>
+            type="edu.rosehulman.todoheap.input.FreeEventInputViewModel"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -82,7 +82,7 @@
                     android:layout_weight="6"
                     android:layout_height="wrap_content"
                     android:text="@{@string/format_date(model.month+1,model.dayOfMonth,model.year)}"
-                    android:textColor="@color/black"
+                    android:textColor="@{model.noDeadline?@color/button_grey_disabled:@color/black}"
                     android:onClick="@{()->controller.selectDeadlineDate()}"
                     android:enabled="@{!model.noDeadline}"/>
 
@@ -93,17 +93,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:text="@{model.pm?@string/format_time_pm(model.hourIn12,model.minute):@string/format_time_am(model.hour % 12,model.minute)}"
-                    android:textColor="@color/black"
+                    android:textColor="@{model.noDeadline?@color/button_grey_disabled:@color/black}"
                     android:onClick="@{()->controller.selectDeadlineTime()}"
                     android:enabled="@{!model.noDeadline}"/>
             </LinearLayout>
 
             <CheckBox
-                android:id="@+id/deadline_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/deadline_disc"
-                android:onClick="@{(v)->controller.hideKeyboard(v)}"
+                android:onClick="@{(v)->controller.updateView().hideKeyboard(v)}"
                 android:checked="@={model.noDeadline}"
                 />
 
@@ -112,6 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/work_load_in_hours"
+                android:text="@={model.workLoad}"
                 android:inputType="numberDecimal"
                 android:onFocusChange="@{(v,f)->controller.hideKeyboardOnLoseFocus(v,f)}"
                 />
@@ -128,6 +128,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/this_work_can_be_done_in_multiple_sessions"
                     android:onClick="@{(v)->controller.hideKeyboard(v)}"
+                    android:checked="@{!model.oneSitting}"
                     />
                 <RadioButton
                     android:id="@+id/is_one_sitting_true"
@@ -135,6 +136,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/this_work_must_be_done_in_one_sitting"
                     android:onClick="@{(v)->controller.hideKeyboard(v)}"
+                    android:checked="@={model.oneSitting}"
                     />
 
             </RadioGroup>
@@ -154,6 +156,8 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:focusableInTouchMode="true"
+                android:selectedItemPosition="@={model.procrastination}"
+
                 />
 
             <TextView
@@ -170,6 +174,7 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp"
                 android:focusableInTouchMode="true"
+                android:selectedItemPosition="@={model.enjoyability}"
                 />
 
         </LinearLayout>

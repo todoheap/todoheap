@@ -24,4 +24,9 @@ class FreeEventController(
             }
         }
     }
+
+    fun updateView(): FreeEventController {
+        activity.binding.model = activity.model
+        return this
+    }
 }

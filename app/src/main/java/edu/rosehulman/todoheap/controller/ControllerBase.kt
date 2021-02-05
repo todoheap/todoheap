@@ -1,20 +1,16 @@
 package edu.rosehulman.todoheap.controller
 
-import android.content.Context
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.databinding.DialogInputDateBinding
 import edu.rosehulman.todoheap.databinding.DialogInputTimeBinding
-import edu.rosehulman.todoheap.viewmodel.DateInputViewModel
-import edu.rosehulman.todoheap.viewmodel.TimeInputViewModel
+import edu.rosehulman.todoheap.input.DateInputViewModel
+import edu.rosehulman.todoheap.input.TimeInputViewModel
 
 abstract class ControllerBase(
     private val activity: AppCompatActivity
@@ -60,7 +56,6 @@ abstract class ControllerBase(
             .setTitle(R.string.title_dialog_time)
             .setView(binding.root)
             .setPositiveButton(android.R.string.ok){ _ , _->
-                Log.d(Constants.TAG, "Time model: $model")
                 callback(model.hour, model.minute)
             }.setNegativeButton(android.R.string.cancel){ _ , _->
             }.create()

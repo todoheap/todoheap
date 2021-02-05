@@ -1,4 +1,4 @@
-package edu.rosehulman.todoheap.viewmodel
+package edu.rosehulman.todoheap.input
 
 data class DateInputViewModel(
         var year: Int,

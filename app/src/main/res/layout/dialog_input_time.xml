@@ -4,7 +4,7 @@
     <data>
         <variable
             name="model"
-            type="edu.rosehulman.todoheap.viewmodel.TimeInputViewModel" />
+            type="edu.rosehulman.todoheap.input.TimeInputViewModel" />
     </data>
 
         <TimePicker
