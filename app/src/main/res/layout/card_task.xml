@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.taskName}"
                 android:padding="3dp"
+                android:textSize="18sp"
                 android:textColor="@color/black"/>
             <TextView
                 android:layout_width="wrap_content"

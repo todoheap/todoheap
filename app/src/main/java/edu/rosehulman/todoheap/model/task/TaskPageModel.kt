@@ -84,7 +84,7 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
 
     private fun insertEventIntoSortedList(e: FreeEvent): Int=
         taskList.indexOfFirst { compareEvents(it,e)>0 }.let {
-            if(it>0){
+            if(it>=0){
                 taskList.add(it, e)
                 it
             }else{

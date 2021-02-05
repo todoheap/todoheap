@@ -27,11 +27,11 @@ class FreeEventActivity: AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_free_event)
         controller = FreeEventController(this)
         binding.controller = controller
-
+        initToolbar()
         initModel()
         initFields()
-        initToolbar()
 
+        binding.inputEventName.requestFocus()
     }
 
     private fun initToolbar() {
@@ -42,7 +42,6 @@ class FreeEventActivity: AppCompatActivity() {
     }
 
     private fun initModel(){
-        val now = Calendar.getInstance()
         model = FreeEventInputModel()
         model.setDeadlineToCurrentTime()
         if(intent!=null){

@@ -46,6 +46,7 @@
 
 
             <EditText
+                android:id="@+id/input_event_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/form_event_name"
@@ -63,6 +64,7 @@
                />
 
             <EditText
+                android:id="@+id/input_work_load"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/form_work_load"
@@ -100,7 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="@{model.pm?@string/format_time_pm(model.hourIn12,model.minute):@string/format_time_am(model.hour % 12,model.minute)}"
+                    android:text="@{model.pm?@string/format_time_pm(model.hourIn12,model.minute):@string/format_time_am(model.hourIn12,model.minute)}"
                     android:textColor="@{model.noDeadline?@color/button_grey_disabled:@color/black}"
                     android:onClick="@{()->controller.selectDeadlineTime()}"
                     android:enabled="@{!model.noDeadline}"/>
