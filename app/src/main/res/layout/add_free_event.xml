@@ -83,12 +83,12 @@
                     android:layout_weight=".5"
                     android:datePickerMode="spinner"
                     android:calendarViewShown="false"
-                    android:year="@={model.deadline.year}"
-                    android:month="@={model.deadline.month}"
-                    android:day="@={model.deadline.d}"
                     android:scaleY="1"
                     android:scaleX="1"
                     />
+                    <!--android:year="@={model.deadline.year}"
+                    android:month="@={model.deadline.month}"
+                    android:day="@={model.deadline.day}"-->
                 <TimePicker
                     android:id="@+id/time_picker"
                     android:layout_width="0dp"

@@ -57,6 +57,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     //This is used for Firestore
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    //This is used for authentication
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation 'com.firebaseui:firebase-ui-auth:6.4.0'
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'

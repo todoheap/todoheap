@@ -1,9 +1,11 @@
 package edu.rosehulman.todoheap.activities
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -13,6 +15,7 @@ import edu.rosehulman.todoheap.controller.Controller
 import edu.rosehulman.todoheap.databinding.ActivityMainBinding
 import edu.rosehulman.todoheap.model.App
 import edu.rosehulman.todoheap.model.task.TaskPageModel
+import edu.rosehulman.todoheap.view.account.AccountFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,6 +42,13 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_settings
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+        navController.addOnDestinationChangedListener {controller, destination, bundle ->
+            when (destination.label) {
+                "Account" -> AccountFragment()
+            }
+        }
+
         navView.setupWithNavController(navController)
         navController.navigate(R.id.navigation_tasks)
 

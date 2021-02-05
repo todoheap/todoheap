@@ -11,17 +11,17 @@
             android:layout_height="wrap_content"
             android:datePickerMode="spinner"
             android:calendarViewShown="false"
-            android:year="2021"
-            android:month="1"
-            android:dayOfMonth="12"
             />
+            <!--android:year="2021"
+            android:month="1"
+            android:dayOfMonth="12"-->
         <TimePicker
             android:id="@+id/time_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:timePickerMode="spinner"
-            app:hour="4"
-            app:minute="5"
             />
+<!--            app:hour="4"-->
+<!--            app:minute="5"-->
     </LinearLayout>
 </layout>
