@@ -10,13 +10,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
+import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.activities.AddFreeActivity
+import edu.rosehulman.todoheap.activities.MainActivity
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.RadioEventTypeBinding
 import edu.rosehulman.todoheap.model.FreeEvent
+import java.lang.RuntimeException
 
-class Controller(val context: Context) {
+class Controller(val context: MainActivity) {
 
     private lateinit var dialog: AlertDialog
 
@@ -36,13 +39,17 @@ class Controller(val context: Context) {
     fun onClickFree() {
         Log.d("EventDebug", "Free Clicked")
         val addFreeIntent = Intent(context, AddFreeActivity::class.java)
-        context.startActivity(addFreeIntent)
+        context.startActivityForResult(addFreeIntent, 1)
         dialog.dismiss()
     }
 
     fun onClickScheduled() {
         Log.d("EventDebug", "Scheduled Clicked")
         dialog.dismiss()
+    }
+
+    fun editFreeEvent() {
+
     }
 
 

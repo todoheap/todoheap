@@ -18,6 +18,8 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
 
 
     fun init(){
+        Log.d(Constants.TAG, "Hello World\n \n \n \n \n \n \n sp ac e" )
+        freeEventsListenerRegistration?.remove()
         taskList.clear()
         recyclerAdapter?.notifyDataSetChanged()
         initDBListener()
@@ -35,8 +37,8 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
                 val event = FreeEvent.fromSnapshot(docChange.document)
                 when(docChange.type){
                     DocumentChange.Type.ADDED -> {
-                        taskList.add(event)
-                        recyclerAdapter?.notifyItemInserted(taskList.size - 1)
+                        taskList.add(0, event)
+                        recyclerAdapter?.notifyItemInserted(0)
                     }
                     DocumentChange.Type.REMOVED -> {
                         taskList.indexOfFirst { it.id == event.id }.let {

@@ -11,6 +11,8 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.google.firebase.Timestamp
+import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.controller.AddFreeEventController
 import edu.rosehulman.todoheap.data.Database
@@ -25,9 +27,6 @@ class AddFreeActivity: AppCompatActivity() {
     lateinit var binding: AddFreeEventBinding
     lateinit var controller: AddFreeEventController
     lateinit var model: FreeEventInputViewModel
-
-    //private lateinit var enjoyabilitySpinner: Spinner
-    //private lateinit var procrastinationSpinner: Spinner
 
     private var enjoyability = 0
     private var procrastination = 0
@@ -48,8 +47,6 @@ class AddFreeActivity: AppCompatActivity() {
     }
 
     private fun initFields() {
-       // enjoyabilitySpinner = findViewById(R.id.enjoyable_spinner)
-       // procrastinationSpinner = findViewById(R.id.procrastination_spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
             this,
@@ -72,8 +69,41 @@ class AddFreeActivity: AppCompatActivity() {
             binding.procrastinationSpinner.adapter = adapter
         }
 
+        binding.enjoyableSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                enjoyability = position
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                //Do nothing
+            }
+
+        }
+
+        binding.procrastinationSpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                procrastination = position
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                //Do nothing
+            }
+
+        }
+
         findViewById<DatePicker>(R.id.date_picker).setOnDateChangedListener { _, year, monthOfYear, dayOfMonth ->
             deadline = Date(year, monthOfYear, dayOfMonth)
+            Timestamp(deadline)
         }
 
     }
@@ -133,6 +163,7 @@ class AddFreeActivity: AppCompatActivity() {
         Database.freeEventsCollection.add(newEvent)
 
         Log.d("EventDebug", "New Event Added: $newEvent")
+        setResult(1, Intent().putExtra(Constants.FREE_EVENT, newEvent))
         finish()
 
     }

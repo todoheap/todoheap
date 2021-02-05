@@ -1,6 +1,7 @@
 package edu.rosehulman.todoheap.activities
 
 import android.accounts.Account
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -11,11 +12,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.controller.Controller
 import edu.rosehulman.todoheap.controller.account.AccountController
+import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.ActivityMainBinding
 import edu.rosehulman.todoheap.model.App
+import edu.rosehulman.todoheap.model.FreeEvent
 import edu.rosehulman.todoheap.model.task.TaskPageModel
 import edu.rosehulman.todoheap.view.account.AccountFragment
 
@@ -84,6 +88,17 @@ class MainActivity : AppCompatActivity() {
     fun loginOK(){
         app.init()
         navController.navigate(R.id.navigation_tasks)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val event = data?.getParcelableExtra<FreeEvent>(Constants.FREE_EVENT)
+        if (event != null) {
+            when (requestCode) {
+                1 -> Database.freeEventsCollection.add(event)
+                2 -> Database.freeEventsCollection.document(event.id!!).set(event)
+            }
+        }
     }
 
 }

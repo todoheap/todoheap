@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -27,7 +28,6 @@ import java.lang.Exception
 import java.net.URL
 
 class AccountFragment : Fragment() {
-//    lateinit var binding: FragmentAccountBinding
     lateinit var activity: MainActivity;
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -38,8 +38,8 @@ class AccountFragment : Fragment() {
         val binding = DataBindingUtil.inflate<FragmentAccountBinding>(inflater, R.layout.fragment_account, container, false)
         binding.controller = activity.accountController
         val name = Database.auth.currentUser?.displayName
-        val model = AccountViewModel(name?:"", activity.resources.getDrawable(R.drawable.ic_account,null))
-        binding.model = model;
+        val model = AccountViewModel(name?:"", ResourcesCompat.getDrawable(activity.resources, R.drawable.ic_account, null)!!)
+        binding.model = model
         Database.auth.currentUser?.photoUrl?.let{
             CoroutineScope(Dispatchers.IO).launch {
                 try {
@@ -48,7 +48,6 @@ class AccountFragment : Fragment() {
                     withContext(Dispatchers.Main){
                         model.profilePicture = drawable
                         binding.model = model
-                        //binding.profilePic.setImageDrawable(drawable)
                     }
                 }catch(e: Exception){
                     Log.e(Constants.TAG,"Error reading image: $e")
@@ -56,6 +55,7 @@ class AccountFragment : Fragment() {
 
             }
         }
+
 
 
         return binding.root
