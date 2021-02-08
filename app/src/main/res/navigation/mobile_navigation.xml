@@ -23,9 +23,4 @@
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account" />
 
-    <fragment
-        android:id="@+id/navigation_settings"
-        android:name="edu.rosehulman.todoheap.view.settings.SettingsFragment"
-        android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
 </navigation>

@@ -46,8 +46,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(setOf(
             R.id.navigation_tasks,
             R.id.navigation_calendar,
-            R.id.navigation_account,
-            R.id.navigation_settings
+            R.id.navigation_account
         ))
         setupActionBarWithNavController(navController, appBarConfiguration)
 
@@ -55,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
         navController.navigate(R.id.navigation_tasks)
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            if(destination.id==R.id.navigation_account || destination.id==R.id.navigation_settings){
+            if(destination.id==R.id.navigation_account){
                 binding.fab.hide()
             }else{
                 binding.fab.show()
