@@ -5,7 +5,7 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
-import edu.rosehulman.todoheap.activities.MainActivity
+import edu.rosehulman.todoheap.main.MainActivity
 import edu.rosehulman.todoheap.data.Database
 
 

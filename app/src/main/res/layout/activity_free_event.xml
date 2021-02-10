@@ -5,15 +5,15 @@
     <data>
         <variable
             name="controller"
-            type="edu.rosehulman.todoheap.controller.FreeEventController" />
+            type="edu.rosehulman.todoheap.freeevent.controller.FreeEventController" />
         <variable
             name="model"
-            type="edu.rosehulman.todoheap.input.FreeEventInputModel"/>
+            type="edu.rosehulman.todoheap.freeevent.input.FreeEventInputModel"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activities.FreeEventActivity"
+        tools:context=".freeevent.FreeEventActivity"
 
         >
         <com.google.android.material.appbar.AppBarLayout

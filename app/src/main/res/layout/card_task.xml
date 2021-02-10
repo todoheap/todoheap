@@ -3,10 +3,10 @@
     <data>
         <variable
             name="viewModel"
-            type="edu.rosehulman.todoheap.view.tasks.viewmodel.TaskCardViewModel" />
+            type="edu.rosehulman.todoheap.tasks.view.TaskCardViewModel" />
         <variable
             name="controller"
-            type="edu.rosehulman.todoheap.controller.TaskCardController" />
+            type="edu.rosehulman.todoheap.tasks.controller.TaskCardController" />
     </data>
     <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"

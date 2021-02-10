@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="edu.rosehulman.todoheap.view.account.AccountViewModel" />
+            type="edu.rosehulman.todoheap.account.view.AccountViewModel" />
         <variable
             name = "controller"
             type = "edu.rosehulman.todoheap.controller.account.AccountController" />
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".view.account.AccountFragment"
+        tools:context=".account.AccountFragment"
         android:background="@color/grey_background">
         <LinearLayout
             android:id="@+id/account_frag"

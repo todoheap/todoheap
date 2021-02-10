@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_tasks"
-        android:name="edu.rosehulman.todoheap.view.tasks.TasksFragment"
+        android:name="edu.rosehulman.todoheap.tasks.TasksFragment"
         android:label="@string/title_tasks"
         tools:layout="@layout/fragment_tasks" />
 
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="edu.rosehulman.todoheap.view.account.AccountFragment"
+        android:name="edu.rosehulman.todoheap.account.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account" />
 

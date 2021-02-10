@@ -3,7 +3,7 @@
     <data>
         <variable
             name = "controller"
-            type="edu.rosehulman.todoheap.controller.Controller"
+            type="edu.rosehulman.todoheap.main.Controller"
             />
     </data>
     <LinearLayout

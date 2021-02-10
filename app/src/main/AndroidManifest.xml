@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TodoHeap">
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".main.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.FreeEventActivity"
+            android:name=".freeevent.FreeEventActivity"
             android:label="@string/title_add_free_event"
             android:theme="@style/Theme.TodoHeap.NoActionBar">
 
