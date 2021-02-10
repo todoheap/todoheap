@@ -1,4 +1,4 @@
-package edu.rosehulman.todoheap.view.settings
+package edu.rosehulman.todoheap.view.toberemoved
 
 import android.os.Bundle
 import android.view.LayoutInflater

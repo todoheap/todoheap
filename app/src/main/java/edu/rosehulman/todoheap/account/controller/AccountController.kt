@@ -1,4 +1,4 @@
-package edu.rosehulman.todoheap.controller.account
+package edu.rosehulman.todoheap.account.controller
 
 import android.util.Log
 import com.firebase.ui.auth.AuthUI

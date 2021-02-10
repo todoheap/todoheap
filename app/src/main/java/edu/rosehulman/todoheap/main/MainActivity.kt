@@ -13,7 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
-import edu.rosehulman.todoheap.controller.account.AccountController
+import edu.rosehulman.todoheap.account.controller.AccountController
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.ActivityMainBinding
 import edu.rosehulman.todoheap.common.model.FreeEvent

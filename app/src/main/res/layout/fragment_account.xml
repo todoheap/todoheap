@@ -9,7 +9,7 @@
             type="edu.rosehulman.todoheap.account.view.AccountViewModel" />
         <variable
             name = "controller"
-            type = "edu.rosehulman.todoheap.controller.account.AccountController" />
+            type = "edu.rosehulman.todoheap.account.controller.AccountController" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"

@@ -12,7 +12,7 @@ import edu.rosehulman.todoheap.main.MainActivity
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.tasks.controller.TaskCardSwipeCallback
 import edu.rosehulman.todoheap.databinding.FragmentTasksBinding
-import edu.rosehulman.todoheap.tasks.view.recycler.TaskCardAdapter
+import edu.rosehulman.todoheap.tasks.view.recycler.CalendarCardAdapter
 
 class TasksFragment : Fragment() {
 
@@ -28,7 +28,7 @@ class TasksFragment : Fragment() {
         //setup recycler
         binding.recyclerTasks.let{
             it.layoutManager = LinearLayoutManager(activity)
-            val taskCardAdapter = TaskCardAdapter(activity.app.taskPageModel, activity)
+            val taskCardAdapter = CalendarCardAdapter(activity.app.taskPageModel, activity)
             activity.app.taskPageModel.recyclerAdapter = taskCardAdapter
             it.adapter = taskCardAdapter
             it.setHasFixedSize(true)

@@ -7,12 +7,11 @@ import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.common.model.FreeEvent
 import edu.rosehulman.todoheap.common.view.RecyclerViewModelProvider
-import edu.rosehulman.todoheap.tasks.view.recycler.TaskCardAdapter
+import edu.rosehulman.todoheap.tasks.view.recycler.CalendarCardAdapter
 import edu.rosehulman.todoheap.tasks.view.TaskCardViewModel
 
 class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
-    var recyclerAdapter: TaskCardAdapter? = null
-    //TODO: Keep the list sorted??
+    var recyclerAdapter: CalendarCardAdapter? = null
     private val taskList = ArrayList<FreeEvent>()
     private var freeEventsListenerRegistration: ListenerRegistration?=null
 

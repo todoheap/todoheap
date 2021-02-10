@@ -17,6 +17,6 @@ object Database {
     //val uid get() = auth.uid
 
     val freeEventsCollection get() = userCollection.document(auth.uid?:"").collection(COLLECTION_FREE_EVENTS)
-
+    val scheduledEventsCollection get() = userCollection.document(auth.uid?:"").collection(COLLECTION_SCHEDULED_EVENTS)
 
 }
