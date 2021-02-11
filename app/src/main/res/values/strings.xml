@@ -37,6 +37,16 @@
         <item>Neutral</item>
         <item>Not as important</item>
     </string-array>
+    <string name="form_start_time">Starts</string>
+    <string name="form_end_time">Ends</string>
+    <string name="form_repeat">Repeats on</string>
+    <string name="form_mon">MON</string>
+    <string name="form_tue">TUE</string>
+    <string name="form_wed">WED</string>
+    <string name="form_thu">THU</string>
+    <string name="form_fri">FRI</string>
+    <string name="form_sat">SAT</string>
+    <string name="form_sun">SUN</string>
 
     <string name="format_date">%d / %d / %d</string>
     <string name="format_time_am">%d:%02d AM</string>
