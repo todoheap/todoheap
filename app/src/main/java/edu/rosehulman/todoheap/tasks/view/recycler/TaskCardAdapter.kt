@@ -25,7 +25,7 @@ class TaskCardAdapter(
     }
 
     override fun onBindViewHolder(holder: TaskCardViewHolder, position: Int) {
-        holder.bind(viewModelProvider.getViewModel(position),activity.controller)
+        holder.bind(viewModelProvider.getViewModel(position),activity.controller.taskController)
     }
 
     override fun getItemCount() = viewModelProvider.size

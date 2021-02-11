@@ -71,4 +71,18 @@ abstract class ControllerBase(
             .show()
     }
 
+    fun promptConfirm(title: Int, content: Int, callback:()->Unit) = promptConfirm(title,content,callback,null)
+
+    fun promptConfirm(title: Int, content: Int, callback:()->Unit,cancel:(()->Unit)?){
+        AlertDialog.Builder(activity)
+                .setTitle(title)
+                .setMessage(content)
+                .setPositiveButton(android.R.string.ok){ _ , _->
+                    callback()
+                }.setNegativeButton(android.R.string.cancel){ _, _->
+                    cancel?.invoke()
+                }.create()
+                .show()
+    }
+
 }

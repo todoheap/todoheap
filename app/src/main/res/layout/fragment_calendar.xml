@@ -2,6 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="controller"
+            type="edu.rosehulman.todoheap.calendar.controller.CalendarController" />
+        <variable
+            name="model"
+            type="edu.rosehulman.todoheap.calendar.model.CalendarPageModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,26 +27,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" >
             <ImageView
+                style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_baseline_chevron_left_24"
-                app:tint="@color/white"/>
+                app:tint="@color/white"
+                android:onClick="@{()->controller.onPressPrevious()}"/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 android:layout_height="wrap_content"
-                android:text="sadfasdfasdf"
+                android:text="@{@string/format_date(model.selectedYear,model.selectedMonth+1,model.selectedDay)}"
                 android:textSize="20sp"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:padding="10dp"/>
+                android:padding="10dp"
+                android:onClick="@{()->controller.onPressSelectDate()}"/>
             <ImageView
+                style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_baseline_chevron_right_24"
-                app:tint="@color/white"/>
+                app:tint="@color/white"
+                android:onClick="@{()->controller.onPressNext()}"/>
         </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_calendar"

@@ -7,13 +7,16 @@ import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
+import edu.rosehulman.todoheap.calendar.controller.CalendarController
 import edu.rosehulman.todoheap.freeevent.FreeEventActivity
-import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.RadioEventTypeBinding
+import edu.rosehulman.todoheap.tasks.controller.TaskController
 
 class Controller(private val activity: MainActivity) {
 
     private lateinit var dialog: AlertDialog
+    val taskController: TaskController = TaskController(activity, activity.app.taskPageModel)
+    val calendarController: CalendarController = CalendarController(activity, activity.app.calendarPageModel)
 
     fun onClickFab() {
 
@@ -41,19 +44,8 @@ class Controller(private val activity: MainActivity) {
         dialog.dismiss()
     }
 
-    fun editFreeEvent(position: Int) {
-        val event = activity.app.taskPageModel[position]
-        val intent = Intent(activity, FreeEventActivity::class.java)
-            .putExtra(Constants.KEY_FREE_EVENT_ID, event.id)
-            .putExtra(Constants.KEY_FREE_EVENT, event)
-            .putExtra(Constants.KEY_SET_TITLE,activity.resources.getString(R.string.title_edit_free_event))
-        activity.startActivityForResult(intent, Constants.RC_EDIT_FREE_EVENT)
 
-    }
 
-    fun deleteAt(position: Int) {
-        Database.freeEventsCollection.document(activity.app.taskPageModel[position].id?:"").delete()
-    }
 
 
 }

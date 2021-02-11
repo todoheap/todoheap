@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.rosehulman.todoheap.R
+import edu.rosehulman.todoheap.calendar.controller.CalendarCardSwipeCallback
 import edu.rosehulman.todoheap.databinding.FragmentCalendarBinding
 import edu.rosehulman.todoheap.main.MainActivity
 import edu.rosehulman.todoheap.tasks.controller.TaskCardSwipeCallback
@@ -33,7 +34,11 @@ class CalendarFragment : Fragment() {
             it.setHasFixedSize(true)
         }
 
-       // ItemTouchHelper(TaskCardSwipeCallback(activity.controller)).attachToRecyclerView(binding.recyclerCalendar)
+        activity.app.calendarPageModel.binding = binding
+        binding.model = activity.app.calendarPageModel
+        binding.controller = activity.controller.calendarController
+
+       ItemTouchHelper(CalendarCardSwipeCallback(activity.controller.calendarController)).attachToRecyclerView(binding.recyclerCalendar)
         return binding.root
     }
 }

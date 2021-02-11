@@ -10,6 +10,7 @@
     <string name="title_dialog_date">Set Date</string>
     <string name="title_dialog_time">Set Time</string>
     <string name="title_dialog_error">Error</string>
+    <string name="title_dialog_confirm">Confirm</string>
 
     <string name="form_event_name">Event Name*</string>
     <string name="form_location">Location</string>
@@ -52,6 +53,7 @@
 
     <string name="error_event_name_empty">Event name cannot be empty</string>
     <string name="error_work_load_empty">Work load cannot be empty</string>
+    <string name="confirm_delete">Delete?</string>
 
 
 </resources>

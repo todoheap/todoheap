@@ -35,7 +35,7 @@ class TasksFragment : Fragment() {
             it.setHasFixedSize(true)
         }
 
-        ItemTouchHelper(TaskCardSwipeCallback(activity.controller)).attachToRecyclerView(binding.recyclerTasks)
+        ItemTouchHelper(TaskCardSwipeCallback(activity.controller.taskController)).attachToRecyclerView(binding.recyclerTasks)
 
         return binding.root
     }
