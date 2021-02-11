@@ -4,6 +4,6 @@ import android.graphics.drawable.Drawable
 
 data class AccountViewModel(
     val name: String = "",
-    var profilePicture: Drawable,
+    var profilePicture: Drawable
 ) {
 }
