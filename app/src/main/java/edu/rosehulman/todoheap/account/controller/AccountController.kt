@@ -1,6 +1,7 @@
 package edu.rosehulman.todoheap.account.controller
 
 import android.util.Log
+import android.view.View
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import edu.rosehulman.todoheap.Constants
@@ -14,6 +15,7 @@ class AccountController(
 ) {
 
     private var loggedIn = false
+    private var showNotifications = true
 
     private val authListener = FirebaseAuth.AuthStateListener {
         val user = it.currentUser
@@ -41,6 +43,16 @@ class AccountController(
     fun onLogOut() {
         Database.signOut()
 
+    }
+
+    fun onNotificationToggle() {
+        //TODO: enable or disable push notifications
+        //TODO: store push notification setting persistently
+        showNotifications = !showNotifications
+    }
+
+    fun getShowNotifications(): Boolean {
+        return this.showNotifications
     }
 
     private fun launchLoginUI() {
