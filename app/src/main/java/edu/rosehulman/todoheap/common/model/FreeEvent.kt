@@ -14,7 +14,7 @@ data class FreeEvent(var name: String = "",
                     var procrastination: Int = 0,
                     var enjoyability: Int = 0,
                      var workload: Double = 0.0,
-                    var location: String? = null,
+                    var location: String="",
                     var deadline: Timestamp? = null) : Parcelable
 {
     @IgnoredOnParcel

@@ -10,6 +10,6 @@ import edu.rosehulman.todoheap.tasks.view.TaskCardViewModel
 
 class CalendarCardViewHolder(private val binding: CardCalendarBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(viewModel: CalendarCardViewModel, controller: Controller) {
-       // binding.model = viewModel
+       binding.model = viewModel
     }
 }

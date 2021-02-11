@@ -47,13 +47,14 @@
                         android:id="@+id/task_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Senior Project Assignment"
+                        android:text="@{model.title}"
                         android:padding="3dp"
+                        android:textSize="18sp"
                         android:textColor="@color/black"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1 hour"
+                        android:text="@{model.subText}"
                         android:padding="3dp"
                         android:layout_below="@id/task_title"
                         android:textColor="@color/grey_text"/>

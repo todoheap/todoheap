@@ -19,7 +19,7 @@ class CalendarCardAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarCardViewHolder {
         val binding = DataBindingUtil.inflate<CardCalendarBinding>(
                 LayoutInflater.from(activity),
-                R.layout.card_task,
+                R.layout.card_calendar,
                 parent,
                 false
         )

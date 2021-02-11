@@ -9,9 +9,10 @@ import edu.rosehulman.todoheap.common.model.FreeEvent
 import edu.rosehulman.todoheap.common.view.RecyclerViewModelProvider
 import edu.rosehulman.todoheap.tasks.view.recycler.CalendarCardAdapter
 import edu.rosehulman.todoheap.tasks.view.TaskCardViewModel
+import edu.rosehulman.todoheap.tasks.view.recycler.TaskCardAdapter
 
 class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
-    var recyclerAdapter: CalendarCardAdapter? = null
+    var recyclerAdapter: TaskCardAdapter? = null
     private val taskList = ArrayList<FreeEvent>()
     private var freeEventsListenerRegistration: ListenerRegistration?=null
 

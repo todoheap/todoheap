@@ -14,6 +14,7 @@ import androidx.navigation.ui.setupWithNavController
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.account.controller.AccountController
+import edu.rosehulman.todoheap.calendar.model.CalendarPageModel
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.ActivityMainBinding
 import edu.rosehulman.todoheap.common.model.FreeEvent
@@ -71,7 +72,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initApp() {
         val taskPageModel = TaskPageModel()
-        app = App(taskPageModel)
+        val calendarPageModel = CalendarPageModel()
+        app = App(taskPageModel,calendarPageModel)
     }
 
     private fun initController() {

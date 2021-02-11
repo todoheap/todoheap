@@ -13,18 +13,18 @@ import edu.rosehulman.todoheap.tasks.view.TaskCardViewModel
 class TaskCardAdapter(
         private val viewModelProvider: RecyclerViewModelProvider<TaskCardViewModel>,
         private val activity: MainActivity,
-): RecyclerView.Adapter<CalendarCardViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarCardViewHolder {
+): RecyclerView.Adapter<TaskCardViewHolder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskCardViewHolder {
         val binding = DataBindingUtil.inflate<CardTaskBinding>(
                 LayoutInflater.from(activity),
                 R.layout.card_task,
                 parent,
                 false
         )
-        return CalendarCardViewHolder(binding)
+        return TaskCardViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CalendarCardViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TaskCardViewHolder, position: Int) {
         holder.bind(viewModelProvider.getViewModel(position),activity.controller)
     }
 

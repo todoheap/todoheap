@@ -20,6 +20,8 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
     var recyclerAdapter: CalendarCardAdapter? = null
     private lateinit var selectedDayTimestamp: Timestamp
     private lateinit var nextDayOfSelectedDayTimestamp: Timestamp
+    private val eventList = ArrayList<ScheduledEvent>()
+    private var listenerRegistration: ListenerRegistration?=null
     init {
         val now = Calendar.getInstance()
         val year = now.get(Calendar.YEAR)
@@ -34,8 +36,7 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
         init()
     }
 
-    private val eventList = ArrayList<ScheduledEvent>()
-    private var listenerRegistration: ListenerRegistration?=null
+
 
 
     fun init(){
@@ -58,11 +59,11 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
                 }
                 val snapshot = value ?: return@addSnapshotListener
                 for(docChange in snapshot.documentChanges) {
-                    val event = FreeEvent.fromSnapshot(docChange.document)
+                    val event = ScheduledEvent.fromSnapshot(docChange.document)
                     when(docChange.type){
                         DocumentChange.Type.ADDED -> {
-                            //val index = insertEventIntoSortedList(event)
-                            //recyclerAdapter?.notifyItemInserted(index)
+                            val index = insertEventIntoSortedList(event)
+                            recyclerAdapter?.notifyItemInserted(index)
                         }
                         DocumentChange.Type.REMOVED -> {
                             eventList.indexOfFirst { it.id == event.id }.let {
@@ -73,16 +74,16 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
                         DocumentChange.Type.MODIFIED -> {
                             eventList.indexOfFirst { it.id == event.id }.let {
                                 eventList.removeAt(it)
-                                //val newIndex = insertEventIntoSortedList(event)
-                                //if(newIndex!=it){
-                                //    recyclerAdapter?.notifyItemRemoved(it)
-                                //    recyclerAdapter?.notifyItemInserted(newIndex)
-                               // }else{
-                               //     recyclerAdapter?.notifyItemChanged(it)
-                               // }
-    //
-    //                            taskList[it] = event
-    //                            recyclerAdapter?.notifyItemChanged(it)
+                                val newIndex = insertEventIntoSortedList(event)
+                                if(newIndex!=it){
+                                    recyclerAdapter?.notifyItemRemoved(it)
+                                    recyclerAdapter?.notifyItemInserted(newIndex)
+                                }else{
+                                    recyclerAdapter?.notifyItemChanged(it)
+                                }
+
+                                eventList[it] = event
+                                recyclerAdapter?.notifyItemChanged(it)
 
                             }
                         }
@@ -93,7 +94,7 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
 
     override fun getViewModel(position: Int): CalendarCardViewModel {
         //TODO: Set proper sub text
-        return CalendarCardViewModel(0,"","")
+        return CalendarCardViewModel(0,eventList[position].name,eventList[position].startTime.toString())
     }
 
     operator fun get(position: Int) = eventList[position]
@@ -101,22 +102,21 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
     override val size: Int
         get() = eventList.size
 
-//    private fun compareEvents(e1: FreeEvent, e2: FreeEvent): Int {
-//        //algorithm is for now simple rank by procrastination
-//        return e1.procrastination - e2.procrastination;
-//    }
-//
-//    private fun insertEventIntoSortedList(e: FreeEvent): Int=
-//        eventList.indexOfFirst { compareEvents(it,e)>0 }.let {
-//            if(it>=0){
-//                eventList.add(it, e)
-//                it
-//            }else{
-//                eventList.add(e)
-//                eventList.size-1
-//            }
-//
-//        }
+    private fun compareEvents(e1: ScheduledEvent, e2: ScheduledEvent): Long {
+        return e1.startTime.seconds - e2.startTime.seconds;
+    }
+
+    private fun insertEventIntoSortedList(e: ScheduledEvent): Int=
+        eventList.indexOfFirst { compareEvents(it,e)>0 }.let {
+            if(it>=0){
+                eventList.add(it, e)
+                it
+            }else{
+                eventList.add(e)
+                eventList.size-1
+            }
+
+        }
 
 
 
