@@ -11,6 +11,7 @@ import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.common.model.FreeEvent
 import edu.rosehulman.todoheap.common.model.ScheduledEvent
 import edu.rosehulman.todoheap.common.view.RecyclerViewModelProvider
+import edu.rosehulman.todoheap.data.TimestampUtil
 import edu.rosehulman.todoheap.tasks.view.recycler.CalendarCardAdapter
 import edu.rosehulman.todoheap.tasks.view.TaskCardViewModel
 import java.util.*
@@ -31,13 +32,10 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
     }
 
     fun selectDay(year: Int, month: Int, day: Int){
-        selectedDayTimestamp = Timestamp(Calendar.Builder().setDate(year,month,day).setTimeOfDay(0, 0, 0).build().time)
-        nextDayOfSelectedDayTimestamp = Timestamp(Calendar.Builder().setDate(year,month,day+1).setTimeOfDay(0, 0, 0).build().time)
+        selectedDayTimestamp = TimestampUtil.toTimestamp(year,month, day);//Timestamp(Calendar.Builder().setDate(year,month,day).setTimeOfDay(0, 0, 0).build().time)
+        nextDayOfSelectedDayTimestamp = TimestampUtil.toTimestamp(year,month, day+1);
         init()
     }
-
-
-
 
     fun init(){
         listenerRegistration?.remove()
@@ -48,7 +46,7 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
 
     private fun initDBListener(){
         listenerRegistration?.remove()
-        Database.scheduledEventsCollection
+        listenerRegistration = Database.scheduledEventsCollection
             .whereGreaterThanOrEqualTo("startTime",selectedDayTimestamp)
             .whereLessThanOrEqualTo("startTime",nextDayOfSelectedDayTimestamp)
             .orderBy("startTime",Query.Direction.ASCENDING)
@@ -60,12 +58,15 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
                 val snapshot = value ?: return@addSnapshotListener
                 for(docChange in snapshot.documentChanges) {
                     val event = ScheduledEvent.fromSnapshot(docChange.document)
+                    Log.d(Constants.TAG,"notified ${event.id}")
                     when(docChange.type){
                         DocumentChange.Type.ADDED -> {
+                            Log.d(Constants.TAG,"inserting ${event.id}")
                             val index = insertEventIntoSortedList(event)
                             recyclerAdapter?.notifyItemInserted(index)
                         }
                         DocumentChange.Type.REMOVED -> {
+                            Log.d(Constants.TAG,"removing ${event.id}")
                             eventList.indexOfFirst { it.id == event.id }.let {
                                 eventList.removeAt(it)
                                 recyclerAdapter?.notifyItemRemoved(it)
@@ -81,10 +82,6 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
                                 }else{
                                     recyclerAdapter?.notifyItemChanged(it)
                                 }
-
-                                eventList[it] = event
-                                recyclerAdapter?.notifyItemChanged(it)
-
                             }
                         }
                     }
@@ -94,7 +91,15 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
 
     override fun getViewModel(position: Int): CalendarCardViewModel {
         //TODO: Set proper sub text
-        return CalendarCardViewModel(0,eventList[position].name,eventList[position].startTime.toString())
+        val event = eventList[position]
+        val hour = TimestampUtil.getHour(event.startTime)
+        val minute = TimestampUtil.getMinute(event.startTime)
+        var showTime = true
+        if(position>0){
+            val previousHour = TimestampUtil.getHour(eventList[position-1].startTime)
+            if(hour==previousHour) showTime = false
+        }
+        return CalendarCardViewModel(showTime, hour, minute,eventList[position].name,eventList[position].startTime.toString())
     }
 
     operator fun get(position: Int) = eventList[position]
@@ -109,9 +114,11 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
     private fun insertEventIntoSortedList(e: ScheduledEvent): Int=
         eventList.indexOfFirst { compareEvents(it,e)>0 }.let {
             if(it>=0){
+                Log.d(Constants.TAG,"scheduled event inserted $it")
                 eventList.add(it, e)
                 it
             }else{
+                Log.d(Constants.TAG,"scheduled event inserted ${eventList.size}")
                 eventList.add(e)
                 eventList.size-1
             }

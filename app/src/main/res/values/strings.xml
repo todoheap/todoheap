@@ -40,6 +40,9 @@
     <string name="format_date">%d / %d / %d</string>
     <string name="format_time_am">%d:%02d AM</string>
     <string name="format_time_pm">%d:%02d PM</string>
+    <string name="format_time">%d:%02d</string>
+    <string name="pm">PM</string>
+    <string name="am">AM</string>
 
     <string name="action_add_free_event">Add Free Event</string>
     <string name="action_add_scheduled_event">Add Scheduled Event</string>

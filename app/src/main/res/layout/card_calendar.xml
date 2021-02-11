@@ -2,6 +2,7 @@
 <layout  xmlns:android="http://schemas.android.com/apk/res/android"
     >
     <data>
+        <import type="android.view.View"/>
         <variable
             name="model"
             type="edu.rosehulman.todoheap.calendar.view.CalendarCardViewModel" />
@@ -13,23 +14,22 @@
             android:id="@+id/calendar_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="7"
-            android:textSize="32sp"
-            android:paddingLeft="20dp"/>
+            android:text="@{@string/format_time(model.hourIn12, model.minute)}"
+            android:textSize="24sp"
+            android:paddingLeft="10dp"
+            android:visibility="@{model.showTime?View.VISIBLE:View.INVISIBLE}"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/calendar_date"
-            android:text="AM"
+            android:text="@{model.pm? @string/pm : @string/am}"
             android:textSize="20sp"
-            android:paddingLeft="20dp"/>
-        <!-- Probably needs to be a dynamic binding like this-->
-        <!-- https://medium.com/androiddevelopers/android-data-binding-list-tricks-ef3d5630555e -->
-        <LinearLayout
+            android:paddingLeft="10dp"
+            android:visibility="@{model.showTime?View.VISIBLE:View.INVISIBLE}"/>
+       <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="70dp"
-            android:paddingRight="35dp"
+            android:paddingLeft="80dp"
             android:orientation="vertical"
             >
             <androidx.cardview.widget.CardView
