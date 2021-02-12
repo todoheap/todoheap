@@ -51,7 +51,7 @@ class AccountFragment : Fragment() {
 
             }
         }
-
+        binding.settings = activity.app.settingsModel
 
 
         return binding.root

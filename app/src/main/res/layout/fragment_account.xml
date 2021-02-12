@@ -8,6 +8,9 @@
             name="model"
             type="edu.rosehulman.todoheap.account.view.AccountViewModel" />
         <variable
+            name="settings"
+            type="edu.rosehulman.todoheap.account.model.SettingsModel" />
+        <variable
             name = "controller"
             type = "edu.rosehulman.todoheap.account.controller.AccountController" />
     </data>
@@ -78,7 +81,7 @@
                         android:id="@+id/checkbox_notifications"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="@={controller.showNotifications}"
+                        android:checked="@={settings.showNotifications}"
                         />
                     <TextView
                         android:id="@+id/checkbox_text"

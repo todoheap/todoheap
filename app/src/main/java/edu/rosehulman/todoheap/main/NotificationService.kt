@@ -15,6 +15,8 @@ import androidx.core.app.NotificationManagerCompat
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.Constants.TAG
 import edu.rosehulman.todoheap.R
+import edu.rosehulman.todoheap.account.model.NotificationSettingModel
+import edu.rosehulman.todoheap.data.Database
 import java.util.*
 
 
@@ -56,7 +58,7 @@ class NotificationService : Service() {
     }
 
     //we are going to use a handler to be able to run in our TimerTask
-    val handler: Handler = Handler()
+    //val handler: Handler = Handler()
 //
 //
     fun startTimer() {
@@ -88,29 +90,37 @@ class NotificationService : Service() {
     }
 
     fun sendNotification(){
-        val builder = NotificationCompat.Builder(
-            this@NotificationService,
-            Constants.CHANNEL_ID
-        )
-            .setSmallIcon(R.drawable.ic_account)
-            .setContentTitle("title")
-            .setContentText("test")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)
-        //startForeground(1, builder.build())
+        Log.d(Constants.TAG, "start getting settings from db")
+        Database.notificationSettingsDocument?.get()?.addOnSuccessListener {
+            val enabled = it.toObject(NotificationSettingModel::class.java)?.enable?:false
+            Log.d(Constants.TAG, "got db $enabled")
+            if(!enabled) return@addOnSuccessListener
 
-        val name = getString(R.string.channel_name)
-        val descriptionText = getString(R.string.channel_description)
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(Constants.CHANNEL_ID, name, importance).apply {
-            description = descriptionText
+            val builder = NotificationCompat.Builder(
+                this@NotificationService,
+                Constants.CHANNEL_ID
+            )
+                .setSmallIcon(R.drawable.ic_account)
+                .setContentTitle("title")
+                .setContentText("test")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+            //startForeground(1, builder.build())
+
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel(Constants.CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+            with(NotificationManagerCompat.from(this@NotificationService)) {
+                notify((System.currentTimeMillis()%1000).toInt(), builder.build())
+            }
         }
-        // Register the channel with the system
-        val notificationManager: NotificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-        with(NotificationManagerCompat.from(this@NotificationService)) {
-            notify((System.currentTimeMillis()%1000).toInt(), builder.build())
-        }
+
     }
 }

@@ -18,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.account.controller.AccountController
+import edu.rosehulman.todoheap.account.model.SettingsModel
 import edu.rosehulman.todoheap.calendar.model.CalendarPageModel
 import edu.rosehulman.todoheap.common.model.FreeEvent
 import edu.rosehulman.todoheap.data.Database
@@ -94,7 +95,8 @@ class MainActivity : AppCompatActivity() {
     private fun initApp() {
         val taskPageModel = TaskPageModel()
         val calendarPageModel = CalendarPageModel()
-        app = App(taskPageModel, calendarPageModel)
+        val settingsModel = SettingsModel()
+        app = App(taskPageModel, calendarPageModel, settingsModel)
     }
 
     private fun initController() {

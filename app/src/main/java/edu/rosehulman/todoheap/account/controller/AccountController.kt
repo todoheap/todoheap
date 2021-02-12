@@ -8,6 +8,7 @@ import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
+import edu.rosehulman.todoheap.account.model.NotificationSettingModel
 import edu.rosehulman.todoheap.main.MainActivity
 import edu.rosehulman.todoheap.data.Database
 
@@ -17,21 +18,7 @@ class AccountController(
 ) {
 
     private var loggedIn = false
-    var showNotifications = true
-    set(value) {
-        field = value
-        //test notification
-        val builder = NotificationCompat.Builder(activity, Constants.CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_account)
-                .setContentTitle("title")
-                .setContentText("test")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true)
 
-        with(NotificationManagerCompat.from(activity)) {
-            notify(1, builder.build())
-        }
-    }
 
     private val authListener = FirebaseAuth.AuthStateListener {
         val user = it.currentUser
