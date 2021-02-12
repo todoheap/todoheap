@@ -7,7 +7,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
@@ -15,14 +14,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.account.controller.AccountController
-import edu.rosehulman.todoheap.calendar.controller.CalendarController
 import edu.rosehulman.todoheap.calendar.model.CalendarPageModel
+import edu.rosehulman.todoheap.common.model.FreeEvent
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.ActivityMainBinding
-import edu.rosehulman.todoheap.common.model.FreeEvent
 import edu.rosehulman.todoheap.tasks.model.TaskPageModel
 
 class MainActivity : AppCompatActivity() {
@@ -46,11 +45,13 @@ class MainActivity : AppCompatActivity() {
 
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.navigation_tasks,
-            R.id.navigation_calendar,
-            R.id.navigation_account
-        ))
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_tasks,
+                R.id.navigation_calendar,
+                R.id.navigation_account
+            )
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
 
 
@@ -69,18 +70,10 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         accountController.setupListener()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.channel_name)
-            val descriptionText = getString(R.string.channel_description)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(Constants.CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//
+//        }
+        stopService(Intent(this, NotificationService::class.java))
     }
 
     override fun onStop() {
@@ -89,10 +82,19 @@ class MainActivity : AppCompatActivity() {
         startService(Intent(this, NotificationService::class.java))
     }
 
+//    override fun onDestroy() {
+//        //startService(Intent(this, NotificationService::class.java))
+////        val broadcastIntent = Intent()
+////        broadcastIntent.action = "restartservice"
+////        broadcastIntent.setClass(this, Restarter::class.java)
+////        this.sendBroadcast(broadcastIntent)
+//        super.onDestroy()
+//    }
+
     private fun initApp() {
         val taskPageModel = TaskPageModel()
         val calendarPageModel = CalendarPageModel()
-        app = App(taskPageModel,calendarPageModel)
+        app = App(taskPageModel, calendarPageModel)
     }
 
     private fun initController() {
@@ -102,14 +104,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loginOK(){
-        Log.d(Constants.TAG,"INIT")
+        Log.d(Constants.TAG, "INIT")
         app.init()
         navController.navigate(R.id.navigation_tasks)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(Constants.TAG,"Result")
+        Log.d(Constants.TAG, "Result")
         val event = data?.getParcelableExtra<FreeEvent>(Constants.KEY_FREE_EVENT)
         if (event != null) {
             when (requestCode) {
