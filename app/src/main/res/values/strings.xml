@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TodoHeap</string>
+    <string name="channel_name">TodoHeap Channel</string>
+    <string name="channel_description">TodoHeap Channel Description</string>
     <string name="title_tasks">Tasks</string>
     <string name="title_calendar">Calendar</string>
     <string name="title_account">Account</string>

@@ -57,12 +57,15 @@ dependencies {
     //Base Firebase API dependency
     implementation platform('com.google.firebase:firebase-bom:26.3.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation 'com.google.firebase:firebase-messaging-ktx'
 
     //This is used for Firestore
     implementation 'com.google.firebase:firebase-firestore-ktx'
     //This is used for authentication
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.firebaseui:firebase-ui-auth:6.4.0'
+
+    implementation 'androidx.core:core:1.3.2'
 }
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'

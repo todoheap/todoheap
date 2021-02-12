@@ -2,6 +2,7 @@ package edu.rosehulman.todoheap
 
 object Constants {
     const val TAG = "TodoHeap"
+    const val CHANNEL_ID = "TodoHeap_Channel"
     const val KEY_FREE_EVENT = "KEY_FREE_EVENT"
     const val KEY_FREE_EVENT_ID = "KEY_FREE_EVENT_ID"
     const val KEY_SET_TITLE = "KEY_SET_TITLE"

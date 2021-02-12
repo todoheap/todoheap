@@ -2,6 +2,8 @@ package edu.rosehulman.todoheap.account.controller
 
 import android.util.Log
 import android.view.View
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import edu.rosehulman.todoheap.Constants
@@ -15,7 +17,21 @@ class AccountController(
 ) {
 
     private var loggedIn = false
-    private var showNotifications = true
+    var showNotifications = true
+    set(value) {
+        field = value
+        //test notification
+        val builder = NotificationCompat.Builder(activity, Constants.CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_account)
+                .setContentTitle("title")
+                .setContentText("test")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+
+        with(NotificationManagerCompat.from(activity)) {
+            notify(1, builder.build())
+        }
+    }
 
     private val authListener = FirebaseAuth.AuthStateListener {
         val user = it.currentUser
@@ -43,16 +59,6 @@ class AccountController(
     fun onLogOut() {
         Database.signOut()
 
-    }
-
-    fun onNotificationToggle() {
-        //TODO: enable or disable push notifications
-        //TODO: store push notification setting persistently
-        showNotifications = !showNotifications
-    }
-
-    fun getShowNotifications(): Boolean {
-        return this.showNotifications
     }
 
     private fun launchLoginUI() {
