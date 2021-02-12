@@ -72,7 +72,7 @@ class FreeEventActivity: AppCompatActivity() {
 
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_add_free_event, menu)
+        menuInflater.inflate(R.menu.menu_event, menu)
         return true
     }
 

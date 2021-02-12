@@ -8,6 +8,9 @@
     <string name="title_settings">Settings</string>
     <string name="title_add_free_event">Add Free Event</string>
     <string name="title_edit_free_event">Edit Free Event</string>
+    <string name="title_add_scheduled_event">Add Scheduled Event</string>
+    <string name="title_edit_scheduled_event">Edit Scheduled Event</string>
+
 
     <string name="title_dialog_date">Set Date</string>
     <string name="title_dialog_time">Set Time</string>
@@ -65,6 +68,7 @@
 
     <string name="error_event_name_empty">Event name cannot be empty</string>
     <string name="error_work_load_empty">Work load cannot be empty</string>
+    <string name="error_end_before_start">Start time must be before end time</string>
     <string name="confirm_delete">Delete?</string>
 
 

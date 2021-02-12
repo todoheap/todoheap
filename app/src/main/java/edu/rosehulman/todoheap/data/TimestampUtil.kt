@@ -35,6 +35,13 @@ object TimestampUtil {
 
     fun toCalendar(timestamp: Timestamp) = Calendar.Builder().setInstant(timestamp.seconds*1000).build()
 
-
+    @JvmStatic
+    fun nextWholeHour(timestamp: Timestamp): Timestamp {
+        var r: Timestamp? = null
+        decomposeFields(timestamp){ year, month, day, hour, _, _ ->
+            r = toTimestamp(year,month,day,hour+1,0,0)
+        }
+        return r!!
+    }
 
 }

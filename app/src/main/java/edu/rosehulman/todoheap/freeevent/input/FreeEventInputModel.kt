@@ -3,6 +3,7 @@ package edu.rosehulman.todoheap.freeevent.input
 import com.google.firebase.Timestamp
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.common.model.FreeEvent
+import edu.rosehulman.todoheap.data.TimestampUtil
 import java.lang.Double
 import java.util.*
 
@@ -24,17 +25,18 @@ data class FreeEventInputModel(
 ) {
 
 
-    val deadlineTimestamp get () = Timestamp(Calendar.Builder().setDate(year,month,dayOfMonth).setTimeOfDay(hour, minute, 0).build().time)
+    val deadlineTimestamp get () = TimestampUtil.toTimestamp(year,month,dayOfMonth,hour,minute,0)
     val pm get() = hour>=12
     val hourIn12 get() = if (hour==0 || hour==12) 12 else (hour % 12)
 
     fun setDeadlineToCurrentTime(){
-        val now = Calendar.getInstance()
-        year = now.get(Calendar.YEAR)
-        dayOfMonth = now.get(Calendar.DAY_OF_MONTH)
-        month = now.get(Calendar.MONTH)
-        hour = now.get(Calendar.HOUR_OF_DAY)
-        minute = now.get(Calendar.MINUTE)
+        TimestampUtil.decomposeFields(Timestamp.now()){ year, month, day, hour, minute,_ ->
+            this.year = year
+            this.month = month
+            this.dayOfMonth = day
+            this.hour = hour
+            this.minute = minute
+        }
     }
 
     fun copyFromEvent(event: FreeEvent){
@@ -42,12 +44,12 @@ data class FreeEventInputModel(
         location = event.location?:""
         val deadline = event.deadline
         if(deadline!=null){
-            Calendar.Builder().setInstant(deadline.toDate()).build().let {
-                year = it.get(Calendar.YEAR)
-                dayOfMonth = it.get(Calendar.DAY_OF_MONTH)
-                month = it.get(Calendar.MONTH)
-                hour = it.get(Calendar.HOUR_OF_DAY)
-                minute = it.get(Calendar.MINUTE)
+            TimestampUtil.decomposeFields(deadline){ year, month, day, hour, minute,_ ->
+                this.year = year
+                this.month = month
+                this.dayOfMonth = day
+                this.hour = hour
+                this.minute = minute
             }
         }
 

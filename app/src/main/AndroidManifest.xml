@@ -24,6 +24,12 @@
             android:theme="@style/Theme.TodoHeap.NoActionBar">
 
         </activity>
+        <activity
+            android:name=".scheduledevent.ScheduledEventActivity"
+            android:label="@string/title_add_scheduled_event"
+            android:theme="@style/Theme.TodoHeap.NoActionBar">
+
+        </activity>
         <service
             android:name=".main.NotificationService"
             android:enabled="true"

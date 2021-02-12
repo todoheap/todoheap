@@ -10,6 +10,7 @@ import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.calendar.controller.CalendarController
 import edu.rosehulman.todoheap.freeevent.FreeEventActivity
 import edu.rosehulman.todoheap.databinding.RadioEventTypeBinding
+import edu.rosehulman.todoheap.scheduledevent.ScheduledEventActivity
 import edu.rosehulman.todoheap.tasks.controller.TaskController
 
 class Controller(private val activity: MainActivity) {
@@ -32,7 +33,6 @@ class Controller(private val activity: MainActivity) {
     }
 
     fun onClickFree() {
-        Log.d("EventDebug", "Free Clicked")
         val intent = Intent(activity, FreeEventActivity::class.java)
             .putExtra(Constants.KEY_SET_TITLE,activity.resources.getString(R.string.title_add_free_event))
         activity.startActivityForResult(intent, Constants.RC_ADD_FREE_EVENT)
@@ -40,7 +40,9 @@ class Controller(private val activity: MainActivity) {
     }
 
     fun onClickScheduled() {
-        Log.d("EventDebug", "Scheduled Clicked")
+        val intent = Intent(activity, ScheduledEventActivity::class.java)
+                .putExtra(Constants.KEY_SET_TITLE,activity.resources.getString(R.string.title_add_scheduled_event))
+        activity.startActivityForResult(intent, Constants.RC_ADD_SCHEDULED_EVENT)
         dialog.dismiss()
     }
 

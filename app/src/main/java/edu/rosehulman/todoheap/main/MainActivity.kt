@@ -21,6 +21,7 @@ import edu.rosehulman.todoheap.account.controller.AccountController
 import edu.rosehulman.todoheap.account.model.SettingsModel
 import edu.rosehulman.todoheap.calendar.model.CalendarPageModel
 import edu.rosehulman.todoheap.common.model.FreeEvent
+import edu.rosehulman.todoheap.common.model.ScheduledEvent
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.databinding.ActivityMainBinding
 import edu.rosehulman.todoheap.tasks.model.TaskPageModel
@@ -113,18 +114,30 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.d(Constants.TAG, "Result")
-        val event = data?.getParcelableExtra<FreeEvent>(Constants.KEY_FREE_EVENT)
-        if (event != null) {
-            when (requestCode) {
-                Constants.RC_ADD_FREE_EVENT -> Database.freeEventsCollection?.add(event)
-                Constants.RC_EDIT_FREE_EVENT -> {
-                    val id = data?.getStringExtra(Constants.KEY_FREE_EVENT_ID)
-                    event.id = id
-                    Database.freeEventsCollection?.document(id!!)?.set(event)
-                }
+
+        when (requestCode) {
+            Constants.RC_ADD_FREE_EVENT -> {
+                val event = data?.getParcelableExtra<FreeEvent>(Constants.KEY_FREE_EVENT)
+                if(event!=null) Database.freeEventsCollection?.add(event)
+            }
+            Constants.RC_EDIT_FREE_EVENT -> {
+                val event = data?.getParcelableExtra<FreeEvent>(Constants.KEY_FREE_EVENT)
+                val id = data?.getStringExtra(Constants.KEY_FREE_EVENT_ID)
+                event?.id = id
+                if(event!=null) Database.freeEventsCollection?.document(id!!)?.set(event)
+            }
+            Constants.RC_ADD_SCHEDULED_EVENT -> {
+                val event = data?.getParcelableExtra<ScheduledEvent>(Constants.KEY_SCHEDULED_EVENT)
+                if(event!=null) Database.scheduledEventsCollection?.add(event)
+            }
+            Constants.RC_EDIT_SCHEDULED_EVENT -> {
+                val event = data?.getParcelableExtra<ScheduledEvent>(Constants.KEY_SCHEDULED_EVENT)
+                val id = data?.getStringExtra(Constants.KEY_SCHEDULED_EVENT_ID)
+                event?.id = id
+                if(event!=null) Database.scheduledEventsCollection?.document(id!!)?.set(event)
             }
         }
+
     }
 
 }
