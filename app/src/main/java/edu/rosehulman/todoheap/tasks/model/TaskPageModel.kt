@@ -27,7 +27,7 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
 
     private fun initDBListener(){
         freeEventsListenerRegistration?.remove()
-        freeEventsListenerRegistration = Database.freeEventsCollection.addSnapshotListener { value, error ->
+        freeEventsListenerRegistration = Database.freeEventsCollection?.addSnapshotListener { value, error ->
             if(error!=null) {
                 Log.e(Constants.TAG, "Error in TaskPageModel: $error")
                 return@addSnapshotListener

@@ -15,7 +15,7 @@ class TaskController(
 ): ControllerBase(activity) {
     fun deleteAt(position: Int) {
         this.promptConfirm(R.string.title_dialog_confirm,R.string.confirm_delete,{
-            Database.freeEventsCollection.document(model[position].id?:"").delete()
+            Database.freeEventsCollection?.document(model[position].id?:"")?.delete()
         }){
             model.recyclerAdapter?.notifyItemChanged(position)
         }

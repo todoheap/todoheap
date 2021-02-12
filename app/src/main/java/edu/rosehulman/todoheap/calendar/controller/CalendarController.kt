@@ -23,7 +23,7 @@ class CalendarController(
     }
     fun deleteAt(position: Int){
         this.promptConfirm(R.string.title_dialog_confirm, R.string.confirm_delete,{
-            Database.scheduledEventsCollection.document(model[position].id?:"").delete()
+            Database.scheduledEventsCollection?.document(model[position].id?:"")?.delete()
         }){
             model.recyclerAdapter?.notifyItemChanged(position)
         }

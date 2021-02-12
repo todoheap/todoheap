@@ -65,10 +65,10 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
     private fun initDBListener(){
         listenerRegistration?.remove()
         listenerRegistration = Database.scheduledEventsCollection
-            .whereGreaterThanOrEqualTo("startTime",selectedDayTimestamp)
-            .whereLessThanOrEqualTo("startTime",nextDayOfSelectedDayTimestamp)
-            .orderBy("startTime",Query.Direction.ASCENDING)
-            .addSnapshotListener { value, error ->
+            ?.whereGreaterThanOrEqualTo("startTime",selectedDayTimestamp)
+            ?.whereLessThanOrEqualTo("startTime",nextDayOfSelectedDayTimestamp)
+            ?.orderBy("startTime",Query.Direction.ASCENDING)
+            ?.addSnapshotListener { value, error ->
                 if(error!=null) {
                     Log.e(Constants.TAG, "Error in CalendarPageModel: $error")
                     return@addSnapshotListener
