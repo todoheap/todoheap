@@ -92,7 +92,7 @@ data class ScheduledEventInputModel(
             location = location,
             startTime = startTimestamp,
             endTime = endTimestamp,
-            repeatOn = ArrayList(listOf(repeatMonday, repeatTuesday,repeatWednesday,repeatThursday,repeatFriday,repeatSaturday,repeatSunday)),
+            repeatOn = listOf(repeatMonday, repeatTuesday,repeatWednesday,repeatThursday,repeatFriday,repeatSaturday,repeatSunday),
     )
 
     val endTimestamp get() = TimestampUtil.toTimestamp(endYear,endMonth,endDay,endHour,endMinute,0)

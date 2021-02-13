@@ -45,6 +45,15 @@
     <string name="form_start_time">Starts</string>
     <string name="form_end_time">Ends</string>
     <string name="form_repeat">Repeats on</string>
+    <string-array name="title_day_of_week">
+        <item>MON</item>
+        <item>TUE</item>
+        <item>WED</item>
+        <item>THU</item>
+        <item>FRI</item>
+        <item>SAT</item>
+        <item>SUN</item>
+    </string-array>
     <string name="form_mon">MON</string>
     <string name="form_tue">TUE</string>
     <string name="form_wed">WED</string>
@@ -54,6 +63,7 @@
     <string name="form_sun">SUN</string>
 
     <string name="format_date">%d / %d / %d</string>
+    <string name="format_date_dow">%d / %d / %d %s</string>
     <string name="format_time_am">%d:%02d AM</string>
     <string name="format_time_pm">%d:%02d PM</string>
     <string name="format_time">%d:%02d</string>

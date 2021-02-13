@@ -29,16 +29,26 @@
             <ImageView
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.75"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_baseline_chevron_left_24"
                 app:tint="@color/white"
                 android:onClick="@{()->controller.onPressPrevious()}"/>
             <TextView
                 android:layout_width="0dp"
-                android:layout_weight="2"
+                android:layout_weight="1.5"
                 android:layout_height="wrap_content"
                 android:text="@{@string/format_date(model.selectedMonth+1,model.selectedDay,model.selectedYear)}"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:padding="10dp"
+                android:onClick="@{()->controller.onPressSelectDate()}"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="@{@stringArray/title_day_of_week[model.selectedDayOfWeek]}"
                 android:textSize="20sp"
                 android:gravity="center"
                 android:textColor="@color/white"
@@ -47,7 +57,7 @@
             <ImageView
                 style="@style/Widget.AppCompat.ActionButton"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="0.75"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_baseline_chevron_right_24"
                 app:tint="@color/white"

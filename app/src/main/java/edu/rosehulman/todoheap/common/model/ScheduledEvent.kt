@@ -14,7 +14,7 @@ data class ScheduledEvent(
     val location: String = "",
     val startTime: Timestamp = Timestamp.now(),
     val endTime: Timestamp = Timestamp.now(),
-    val repeatOn: ArrayList<Boolean> = ArrayList(),
+    val repeatOn: List<Boolean> = ArrayList(),
     ) : Parcelable {
     @IgnoredOnParcel
     @get: Exclude
@@ -26,4 +26,7 @@ data class ScheduledEvent(
             return snapshot.toObject(ScheduledEvent::class.java).also { it.id = snapshot.id }
         }
     }
+
+    fun isRepeatingOn(i: Int) = i>=0&&i<repeatOn.size && repeatOn[i]
+
 }

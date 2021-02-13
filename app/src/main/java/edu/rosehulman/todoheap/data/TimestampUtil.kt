@@ -32,7 +32,7 @@ object TimestampUtil {
     fun getHour(timestamp: Timestamp) = toCalendar(timestamp).get(Calendar.HOUR_OF_DAY)
     @JvmStatic
     fun getMinute(timestamp: Timestamp) = toCalendar(timestamp).get(Calendar.MINUTE)
-
+    @JvmStatic
     fun toCalendar(timestamp: Timestamp) = Calendar.Builder().setInstant(timestamp.seconds*1000).build()
 
     @JvmStatic
@@ -44,4 +44,11 @@ object TimestampUtil {
         return r!!
     }
 
+    @JvmStatic
+    fun getDayOfWeek(timestamp: Timestamp) = toCalendar(timestamp).get(Calendar.DAY_OF_WEEK)
+    @JvmStatic
+    fun calendarDayOfWeekToIndex(dayOfWeek: Int) = if (dayOfWeek==Calendar.SUNDAY) 6 else dayOfWeek - 2
+
+    @JvmStatic
+    fun compare(t1: Timestamp, t2: Timestamp) = t1.seconds - t2.seconds
 }

@@ -33,16 +33,12 @@ class Controller(private val activity: MainActivity) {
     }
 
     fun onClickFree() {
-        val intent = Intent(activity, FreeEventActivity::class.java)
-            .putExtra(Constants.KEY_SET_TITLE,activity.resources.getString(R.string.title_add_free_event))
-        activity.startActivityForResult(intent, Constants.RC_ADD_FREE_EVENT)
+        taskController.add()
         dialog.dismiss()
     }
 
     fun onClickScheduled() {
-        val intent = Intent(activity, ScheduledEventActivity::class.java)
-                .putExtra(Constants.KEY_SET_TITLE,activity.resources.getString(R.string.title_add_scheduled_event))
-        activity.startActivityForResult(intent, Constants.RC_ADD_SCHEDULED_EVENT)
+        calendarController.add();
         dialog.dismiss()
     }
 

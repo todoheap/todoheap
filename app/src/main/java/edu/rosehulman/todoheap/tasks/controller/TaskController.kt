@@ -31,4 +31,11 @@ class TaskController(
 
     }
 
+    fun add(){
+        val intent = Intent(activity, FreeEventActivity::class.java)
+                .putExtra(Constants.KEY_SET_TITLE,activity.resources.getString(R.string.title_add_free_event))
+        activity.startActivityForResult(intent, Constants.RC_ADD_FREE_EVENT)
+    }
+
+
 }

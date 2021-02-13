@@ -38,7 +38,7 @@ class CalendarFragment : Fragment() {
         binding.model = activity.app.calendarPageModel
         binding.controller = activity.controller.calendarController
 
-       ItemTouchHelper(CalendarCardSwipeCallback(activity.controller.calendarController)).attachToRecyclerView(binding.recyclerCalendar)
+        ItemTouchHelper(CalendarCardSwipeCallback(activity.controller.calendarController)).attachToRecyclerView(binding.recyclerCalendar)
         return binding.root
     }
 }

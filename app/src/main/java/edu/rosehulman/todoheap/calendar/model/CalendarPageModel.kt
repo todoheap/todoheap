@@ -25,6 +25,7 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
     val selectedYear  get() = TimestampUtil.getYear(selectedDayTimestamp)
     val selectedMonth  get() = TimestampUtil.getMonth(selectedDayTimestamp)
     val selectedDay  get() = TimestampUtil.getDay(selectedDayTimestamp)
+    val selectedDayOfWeek get() = TimestampUtil.calendarDayOfWeekToIndex(TimestampUtil.getDayOfWeek(selectedDayTimestamp))
     private lateinit var nextDayOfSelectedDayTimestamp: Timestamp
     private val eventList = ArrayList<ScheduledEvent>()
     private var listenerRegistration: ListenerRegistration?=null
@@ -65,7 +66,6 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
     private fun initDBListener(){
         listenerRegistration?.remove()
         listenerRegistration = Database.scheduledEventsCollection
-            ?.whereGreaterThanOrEqualTo("startTime",selectedDayTimestamp)
             ?.whereLessThanOrEqualTo("startTime",nextDayOfSelectedDayTimestamp)
             ?.orderBy("startTime",Query.Direction.ASCENDING)
             ?.addSnapshotListener { value, error ->
@@ -74,35 +74,50 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
                     return@addSnapshotListener
                 }
                 val snapshot = value ?: return@addSnapshotListener
+                val dayOfWeekIndex = TimestampUtil.calendarDayOfWeekToIndex(TimestampUtil.getDayOfWeek(selectedDayTimestamp))
+
                 for(docChange in snapshot.documentChanges) {
                     val event = ScheduledEvent.fromSnapshot(docChange.document)
                     when(docChange.type){
                         DocumentChange.Type.ADDED -> {
-                            val index = insertEventIntoSortedList(event)
-                            recyclerAdapter?.notifyItemInserted(index)
-                            notifyShowTimeChangeWhenInsertedAt(index)
+                            //insert if the event is on the selected day, or is repeated and is
+                            var shouldAdd = false
+                            if(TimestampUtil.compare(event.startTime, selectedDayTimestamp)>=0 && TimestampUtil.compare(event.startTime,nextDayOfSelectedDayTimestamp)<=0){
+                                //event is on the selected day
+                                shouldAdd = true
+                            }else if(TimestampUtil.compare(event.endTime,nextDayOfSelectedDayTimestamp) <=0&&event.isRepeatingOn(dayOfWeekIndex)){
+                                shouldAdd = true
+                            }
+                            if(shouldAdd) {
+                                val index = insertEventIntoSortedList(event)
+                                recyclerAdapter?.notifyItemInserted(index)
+                                notifyShowTimeChangeWhenInsertedAt(index)
+                            }
                         }
                         DocumentChange.Type.REMOVED -> {
                             eventList.indexOfFirst { it.id == event.id }.let {
-                                eventList.removeAt(it)
-                                recyclerAdapter?.notifyItemRemoved(it)
-                                notifyShowTimeChangeWhenRemovedAt(it)
+                                if(it>=0) {
+                                    eventList.removeAt(it)
+                                    recyclerAdapter?.notifyItemRemoved(it)
+                                    notifyShowTimeChangeWhenRemovedAt(it)
+                                }
                             }
                         }
                         DocumentChange.Type.MODIFIED -> {
                             eventList.indexOfFirst { it.id == event.id }.let {
-
-                                eventList.removeAt(it)
-                                val newIndex = insertEventIntoSortedList(event)
-                                if(newIndex!=it){
-                                    recyclerAdapter?.notifyItemRemoved(it)
-                                    notifyShowTimeChangeWhenRemovedAt(it)
-                                    recyclerAdapter?.notifyItemInserted(newIndex)
-                                    notifyShowTimeChangeWhenInsertedAt(newIndex)
-                                }else{
-                                    recyclerAdapter?.notifyItemChanged(it)
-                                    if(it<eventList.size-1){
-                                        recyclerAdapter?.notifyItemChanged(it+1)
+                                if(it>0){
+                                    eventList.removeAt(it)
+                                    val newIndex = insertEventIntoSortedList(event)
+                                    if(newIndex!=it){
+                                        recyclerAdapter?.notifyItemRemoved(it)
+                                        notifyShowTimeChangeWhenRemovedAt(it)
+                                        recyclerAdapter?.notifyItemInserted(newIndex)
+                                        notifyShowTimeChangeWhenInsertedAt(newIndex)
+                                    }else{
+                                        recyclerAdapter?.notifyItemChanged(it)
+                                        if(it<eventList.size-1){
+                                            recyclerAdapter?.notifyItemChanged(it+1)
+                                        }
                                     }
                                 }
                             }
@@ -113,7 +128,6 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
     }
 
     override fun getViewModel(position: Int): CalendarCardViewModel {
-        //TODO: Set proper sub text
         val event = eventList[position]
         val hour = TimestampUtil.getHour(event.startTime)
         val minute = TimestampUtil.getMinute(event.startTime)
@@ -122,7 +136,7 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
             val previousHour = TimestampUtil.getHour(eventList[position-1].startTime)
             if(hour==previousHour) showTime = false
         }
-        return CalendarCardViewModel(showTime, hour, minute,eventList[position].name,eventList[position].startTime.toString())
+        return CalendarCardViewModel(showTime, hour, minute,eventList[position].name,TimestampUtil.getHour(event.endTime),TimestampUtil.getMinute(event.endTime),event.location)
     }
 
     private fun notifyShowTimeChangeWhenInsertedAt(position: Int){
@@ -152,8 +166,16 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
     override val size: Int
         get() = eventList.size
 
-    private fun compareEvents(e1: ScheduledEvent, e2: ScheduledEvent): Long {
-        return e1.startTime.seconds - e2.startTime.seconds;
+    private fun compareEvents(e1: ScheduledEvent, e2: ScheduledEvent): Int {
+        var startTime1: Int = 0
+        TimestampUtil.decomposeFields(e1.startTime){ _,_,_,hour,minute,_ ->
+            startTime1 = hour*60 + minute;
+        }
+        var startTime2: Int = 0
+        TimestampUtil.decomposeFields(e2.startTime){ _,_,_,hour,minute,_ ->
+            startTime2 = hour*60 + minute;
+        }
+        return startTime1 - startTime2;
     }
 
     private fun insertEventIntoSortedList(e: ScheduledEvent): Int=

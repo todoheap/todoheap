@@ -1,10 +1,14 @@
 package edu.rosehulman.todoheap.calendar.controller
 
+import android.content.Intent
+import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.R
 import edu.rosehulman.todoheap.calendar.model.CalendarPageModel
 import edu.rosehulman.todoheap.common.ControllerBase
 import edu.rosehulman.todoheap.data.Database
+import edu.rosehulman.todoheap.freeevent.FreeEventActivity
 import edu.rosehulman.todoheap.main.MainActivity
+import edu.rosehulman.todoheap.scheduledevent.ScheduledEventActivity
 
 class CalendarController(
         val activity: MainActivity,
@@ -27,6 +31,20 @@ class CalendarController(
         }){
             model.recyclerAdapter?.notifyItemChanged(position)
         }
+    }
+    fun editAt(position: Int) {
+        val event = activity.app.calendarPageModel[position]
+        val intent = Intent(activity, ScheduledEventActivity::class.java)
+                .putExtra(Constants.KEY_SCHEDULED_EVENT_ID, event.id)
+                .putExtra(Constants.KEY_SCHEDULED_EVENT, event)
+                .putExtra(Constants.KEY_SET_TITLE,activity.resources.getString(R.string.title_edit_scheduled_event))
+        activity.startActivityForResult(intent, Constants.RC_EDIT_SCHEDULED_EVENT)
+    }
+    fun add(){
+        val intent = Intent(activity, ScheduledEventActivity::class.java)
+                .putExtra(Constants.KEY_SET_TITLE,activity.resources.getString(R.string.title_add_scheduled_event))
+        activity.startActivityForResult(intent, Constants.RC_ADD_SCHEDULED_EVENT)
+
     }
 
 
