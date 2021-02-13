@@ -23,6 +23,7 @@ import edu.rosehulman.todoheap.calendar.model.CalendarPageModel
 import edu.rosehulman.todoheap.common.model.FreeEvent
 import edu.rosehulman.todoheap.common.model.ScheduledEvent
 import edu.rosehulman.todoheap.data.Database
+import edu.rosehulman.todoheap.data.TimestampUtil
 import edu.rosehulman.todoheap.databinding.ActivityMainBinding
 import edu.rosehulman.todoheap.tasks.model.TaskPageModel
 
@@ -128,13 +129,23 @@ class MainActivity : AppCompatActivity() {
             }
             Constants.RC_ADD_SCHEDULED_EVENT -> {
                 val event = data?.getParcelableExtra<ScheduledEvent>(Constants.KEY_SCHEDULED_EVENT)
-                if(event!=null) Database.scheduledEventsCollection?.add(event)
+                if(event!=null){
+                    Database.scheduledEventsCollection?.add(event)
+                    TimestampUtil.decomposeFields(event.startTime){ year, month, day, _,_,_->
+                        app.calendarPageModel.selectDay(year,month,day)
+                    }
+                }
             }
             Constants.RC_EDIT_SCHEDULED_EVENT -> {
                 val event = data?.getParcelableExtra<ScheduledEvent>(Constants.KEY_SCHEDULED_EVENT)
                 val id = data?.getStringExtra(Constants.KEY_SCHEDULED_EVENT_ID)
                 event?.id = id
-                if(event!=null) Database.scheduledEventsCollection?.document(id!!)?.set(event)
+                if(event!=null){
+                    Database.scheduledEventsCollection?.document(id!!)?.set(event)
+                    TimestampUtil.decomposeFields(event.startTime){ year, month, day, _,_,_->
+                        app.calendarPageModel.selectDay(year,month,day)
+                    }
+                }
             }
         }
 
