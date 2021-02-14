@@ -67,7 +67,6 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
         listenerRegistration?.remove()
         listenerRegistration = Database.scheduledEventsCollection
             ?.whereLessThanOrEqualTo("startTime",nextDayOfSelectedDayTimestamp)
-            ?.orderBy("startTime",Query.Direction.ASCENDING)
             ?.addSnapshotListener { value, error ->
                 if(error!=null) {
                     Log.e(Constants.TAG, "Error in CalendarPageModel: $error")

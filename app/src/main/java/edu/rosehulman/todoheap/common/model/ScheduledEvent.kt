@@ -2,6 +2,7 @@ package edu.rosehulman.todoheap.common.model
 
 import android.os.Parcelable
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.parcelize.IgnoredOnParcel
@@ -24,6 +25,10 @@ data class ScheduledEvent(
         @JvmStatic
         fun fromSnapshot(snapshot: QueryDocumentSnapshot): ScheduledEvent {
             return snapshot.toObject(ScheduledEvent::class.java).also { it.id = snapshot.id }
+        }
+        @JvmStatic
+        fun fromSnapshot(snapshot: DocumentSnapshot): ScheduledEvent? {
+            return snapshot.toObject(ScheduledEvent::class.java).also { it?.id = snapshot.id }
         }
     }
 

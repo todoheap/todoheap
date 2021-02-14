@@ -11,9 +11,9 @@ object TimestampUtil {
     @JvmStatic
     fun toTimestamp(year: Int, month: Int, day: Int, hour: Int, minute: Int, second: Int) =  Timestamp(Calendar.Builder().setDate(year,month,day).setTimeOfDay(hour, minute, second).build().time)
     @JvmStatic
-    fun decomposeFields(timestamp: Timestamp, callback:(year: Int, month: Int, day:Int, hour: Int, minute: Int, second:Int)->Unit) {
+    inline fun <T> decomposeFields(timestamp: Timestamp, callback:(year: Int, month: Int, day:Int, hour: Int, minute: Int, second:Int)->T):T {
         val calendar = toCalendar(timestamp)
-        callback(
+        return callback(
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH),
@@ -51,4 +51,13 @@ object TimestampUtil {
 
     @JvmStatic
     fun compare(t1: Timestamp, t2: Timestamp) = t1.seconds - t2.seconds
+
+    @JvmStatic
+    fun convertToSameTimeOfDay(toConvert: Timestamp, targetDay: Timestamp): Timestamp{
+        return decomposeFields(targetDay) { year, month, day, _, _, _ ->
+            return decomposeFields(toConvert) { _,_,_,hour,minute,second ->
+                return toTimestamp(year,month,day,hour,minute,second)
+            }
+        }
+    }
 }
