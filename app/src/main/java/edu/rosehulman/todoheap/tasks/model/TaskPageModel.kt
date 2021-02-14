@@ -20,6 +20,11 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
     private var freeEventsListenerRegistration: ListenerRegistration?=null
 
     private var freeHours = 0.0
+    private var dueTimeWeight = 0.5
+    private var priorityWeight = 0.5
+    private var procrastinationWeight = 0.5
+    private var enjoyabilityWeight = 0.5
+    private var workloadWeight = 0.5
 
     fun init(){
         freeEventsListenerRegistration?.remove()
@@ -103,12 +108,7 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
 
                 //priority value lower = more important
                 //procrastination value lower = less procrastination (schedule sooner)
-                // read weights from settings, weights are from 1 to -1, 0 means neutral
-                val dueTimeWeight = 0.5
-                val priorityWeight = 0.5
-                val procrastinationWeight = 0.5
-                val enjoyabilityWeight = 0.5
-                val workloadWeight = 0.5
+                //weights are from 1 to -1, 0 means neutral
 
                 val e1Value = e1.value(now,dueTimeWeight,priorityWeight,enjoyabilityWeight,procrastinationWeight,workloadWeight)
                 val e2Value = e2.value(now,dueTimeWeight,priorityWeight,enjoyabilityWeight,procrastinationWeight,workloadWeight)
@@ -159,9 +159,13 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
                     //starts after now
                     val currentFreeSeconds = scheduledEvent.startTime.seconds - now.seconds
                     freeSeconds = Math.min(freeSeconds, currentFreeSeconds)
+
                 }
             }
             freeHours = freeSeconds / 3600.0
+
+            //TODO: read weights
+
             callback()
         }
     }
