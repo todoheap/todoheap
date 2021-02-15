@@ -54,8 +54,8 @@ object TimestampUtil {
 
     @JvmStatic
     fun convertToSameTimeOfDay(toConvert: Timestamp, targetDay: Timestamp): Timestamp{
-        return decomposeFields(targetDay) { year, month, day, _, _, _ ->
-            return decomposeFields(toConvert) { _,_,_,hour,minute,second ->
+        decomposeFields(targetDay) { year, month, day, _, _, _ ->
+            decomposeFields(toConvert) { _,_,_,hour,minute,second ->
                 return toTimestamp(year,month,day,hour,minute,second)
             }
         }
