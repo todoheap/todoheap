@@ -120,12 +120,14 @@ class MainActivity : AppCompatActivity() {
             Constants.RC_ADD_FREE_EVENT -> {
                 val event = data?.getParcelableExtra<FreeEvent>(Constants.KEY_FREE_EVENT)
                 if(event!=null) Database.freeEventsCollection?.add(event)
+                navController.navigate(R.id.navigation_tasks)
             }
             Constants.RC_EDIT_FREE_EVENT -> {
                 val event = data?.getParcelableExtra<FreeEvent>(Constants.KEY_FREE_EVENT)
                 val id = data?.getStringExtra(Constants.KEY_FREE_EVENT_ID)
                 event?.id = id
                 if(event!=null) Database.freeEventsCollection?.document(id!!)?.set(event)
+                navController.navigate(R.id.navigation_tasks)
             }
             Constants.RC_ADD_SCHEDULED_EVENT -> {
                 val event = data?.getParcelableExtra<ScheduledEvent>(Constants.KEY_SCHEDULED_EVENT)
@@ -134,6 +136,7 @@ class MainActivity : AppCompatActivity() {
                     TimestampUtil.decomposeFields(event.startTime){ year, month, day, _,_,_->
                         app.calendarPageModel.selectDay(year,month,day)
                     }
+                    navController.navigate(R.id.navigation_calendar)
                 }
             }
             Constants.RC_EDIT_SCHEDULED_EVENT -> {
@@ -145,6 +148,7 @@ class MainActivity : AppCompatActivity() {
                     TimestampUtil.decomposeFields(event.startTime){ year, month, day, _,_,_->
                         app.calendarPageModel.selectDay(year,month,day)
                     }
+                    navController.navigate(R.id.navigation_calendar)
                 }
             }
         }

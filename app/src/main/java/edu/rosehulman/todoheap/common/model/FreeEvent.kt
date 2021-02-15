@@ -29,7 +29,9 @@ data class FreeEvent(var name: String = "",
         }
     }
 
-    fun isDoable(freeHours: Double):Boolean = !isOneSitting || workload<freeHours
+    fun isDoable(freeHours: Double):Boolean = !isOneSitting || hasEnoughRoom(freeHours)
+
+    fun hasEnoughRoom(freeHours: Double) = workload<freeHours
 
     fun isPastDue(now: Timestamp):Boolean = deadline!=null && TimestampUtil.compare(deadline!!, now)<0
 

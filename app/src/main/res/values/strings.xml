@@ -64,11 +64,16 @@
 
     <string name="format_date">%d / %d / %d</string>
     <string name="format_date_dow">%d / %d / %d %s</string>
+    <string name="format_date_compact">%d/%d/%d</string>
+    <string name="format_date_compact_noyear">%d/%d</string>
     <string name="format_time_am">%d:%02d AM</string>
     <string name="format_time_pm">%d:%02d PM</string>
     <string name="format_time">%d:%02d</string>
-    <string name="pm">PM</string>
-    <string name="am">AM</string>
+    <plurals name="format_hour">
+        <item quantity="one">%.02f hour</item>
+        <item quantity="other">%.02f hours</item>
+    </plurals>
+
 
     <string name="action_add_free_event">Add Free Event</string>
     <string name="action_add_scheduled_event">Add Scheduled Event</string>
@@ -80,6 +85,12 @@
     <string name="error_work_load_empty">Work load cannot be empty</string>
     <string name="error_end_before_start">Start time must be before end time</string>
     <string name="confirm_delete">Delete?</string>
+    <string name="text_due">Due</string>
+    <string name="text_due_soon">Due Soon</string>
+    <string name="text_past_due">Past Due</string>
+    <string name="text_pm">PM</string>
+    <string name="text_am">AM</string>
+    <string name="text_conflict_one_sitting">One Sitting Conflict</string>
 
 
 </resources>

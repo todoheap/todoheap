@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/calendar_date"
-            android:text="@{model.pm? @string/pm : @string/am}"
+            android:text="@{model.pm? @string/text_pm : @string/text_am}"
             android:textSize="20sp"
             android:paddingLeft="10dp"
             android:visibility="@{model.showTime?View.VISIBLE:View.INVISIBLE}"/>

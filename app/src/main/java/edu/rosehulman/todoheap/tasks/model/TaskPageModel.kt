@@ -10,9 +10,11 @@ import edu.rosehulman.todoheap.common.model.FreeEvent
 import edu.rosehulman.todoheap.common.model.ScheduledEvent
 import edu.rosehulman.todoheap.common.view.RecyclerViewModelProvider
 import edu.rosehulman.todoheap.data.TimestampUtil
-import edu.rosehulman.todoheap.tasks.view.recycler.CalendarCardAdapter
 import edu.rosehulman.todoheap.tasks.view.TaskCardViewModel
 import edu.rosehulman.todoheap.tasks.view.recycler.TaskCardAdapter
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
     var recyclerAdapter: TaskCardAdapter? = null
@@ -74,8 +76,32 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
     }
 
     override fun getViewModel(position: Int): TaskCardViewModel {
-        //TODO: Set proper sub text
-        return TaskCardViewModel(taskList[position].name, taskList[position].procrastination.toString())
+        val event = taskList[position]
+        val now = Timestamp.now()
+
+        val deadline = event.deadline
+        val pastDue = deadline?.let{ TimestampUtil.compare(it, now)<0 } ?:false
+        val deadlineCalendar = deadline?.let(TimestampUtil::toCalendar)
+        val dueYear = deadlineCalendar?.get(Calendar.YEAR)
+        val dueDayOfWeek = deadlineCalendar?.get(Calendar.DAY_OF_WEEK)?.let(TimestampUtil::calendarDayOfWeekToIndex)
+        Log.d(Constants.TAG, "event ${event.name}, hasroom=${event.hasEnoughRoom(freeHours)}, freeHours = $freeHours")
+        return TaskCardViewModel(
+                taskName = event.name,
+                oneSittingConflict = event.isOneSitting && !event.hasEnoughRoom(freeHours),
+                showDueWarning = pastDue || (deadline!=null && deadline.seconds - now.seconds < 3600*24),
+                pastDue = pastDue,
+                workload = event.workload,
+                location = event.location,
+                dueYear = dueYear,
+                dueMonth = deadlineCalendar?.get(Calendar.MONTH),
+                dueDay = deadlineCalendar?.get(Calendar.DAY_OF_MONTH),
+                dueHour = deadlineCalendar?.get(Calendar.HOUR_OF_DAY),
+                dueMinute = deadlineCalendar?.get(Calendar.MINUTE),
+                showDue = deadline!=null,
+                showDueYear = dueYear != null && dueYear!=TimestampUtil.getYear(now),
+                dueDayOfWeekIndex = dueDayOfWeek,
+                showDueDayOfWeekAndTime = deadline!=null && abs(deadline.seconds - now.seconds)<3600*24*7,//less then 7 days
+        )
     }
 
     operator fun get(position: Int) = taskList[position]
@@ -139,9 +165,10 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
 
     private fun reloadParameters(callback: ()->Unit) {
         val now = Timestamp.now()
-        var freeSeconds = 0L;
+
         Database.scheduledEventsCollection?.whereGreaterThanOrEqualTo("endTime",now)?.get()?.addOnSuccessListener {
             val value = it ?: return@addOnSuccessListener
+            var freeSeconds = Long.MAX_VALUE
             for(document in value.documents){
                 val scheduledEvent = ScheduledEvent.fromSnapshot(document) ?: continue
                 if(TimestampUtil.compare(scheduledEvent.startTime, now)<0){
@@ -152,18 +179,18 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
                         val dayOfWeekIndex = TimestampUtil.calendarDayOfWeekToIndex(TimestampUtil.getDayOfWeek(now))
                         if(scheduledEvent.isRepeatingOn(dayOfWeekIndex)){
                             val currentFreeSeconds = startTimeOnly.seconds - now.seconds
-                            freeSeconds = Math.min(freeSeconds, currentFreeSeconds)
+                            freeSeconds = freeSeconds.coerceAtMost(currentFreeSeconds)
                         }
                     }
                 }else{
                     //starts after now
                     val currentFreeSeconds = scheduledEvent.startTime.seconds - now.seconds
-                    freeSeconds = Math.min(freeSeconds, currentFreeSeconds)
+                    freeSeconds = freeSeconds.coerceAtMost(currentFreeSeconds)
 
                 }
             }
             freeHours = freeSeconds / 3600.0
-
+            Log.d(Constants.TAG,"Loaded Free Hours = $freeHours")
             //TODO: read weights
 
             callback()
