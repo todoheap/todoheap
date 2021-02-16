@@ -20,6 +20,7 @@ import kotlin.math.abs
 class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
     var recyclerAdapter: TaskCardAdapter? = null
     private val taskList = ArrayList<FreeEvent>()
+    @Volatile
     private var freeEventsListenerRegistration: ListenerRegistration?=null
 
     private var freeHours = 0.0
@@ -37,8 +38,8 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
             initDBListener()
         }
     }
-
-    private fun initDBListener(){
+    @Synchronized
+    private  fun  initDBListener(){
         freeEventsListenerRegistration?.remove()
         freeEventsListenerRegistration = Database.freeEventsCollection?.addSnapshotListener { value, error ->
             if(error!=null) {

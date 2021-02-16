@@ -28,6 +28,7 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
     val selectedDayOfWeek get() = TimestampUtil.calendarDayOfWeekToIndex(TimestampUtil.getDayOfWeek(selectedDayTimestamp))
     private lateinit var nextDayOfSelectedDayTimestamp: Timestamp
     private val eventList = ArrayList<ScheduledEvent>()
+    @Volatile
     private var listenerRegistration: ListenerRegistration?=null
     init {
         val now = Calendar.getInstance()
@@ -62,7 +63,7 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
         recyclerAdapter?.notifyDataSetChanged()
         initDBListener()
     }
-
+    @Synchronized
     private fun initDBListener(){
         listenerRegistration?.remove()
         listenerRegistration = Database.scheduledEventsCollection

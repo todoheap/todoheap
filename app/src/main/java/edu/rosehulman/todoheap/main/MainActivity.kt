@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
 
         navView.setupWithNavController(navController)
-        navController.navigate(R.id.navigation_tasks)
+
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             if(destination.id==R.id.navigation_account){
                 binding.fab.hide()
@@ -67,7 +67,12 @@ class MainActivity : AppCompatActivity() {
             if(destination.id==R.id.navigation_tasks){
                 app.taskPageModel.init()
             }
+            if(destination.id==R.id.navigation_account){
+                app.settingsModel.init()
+            }
         }
+        if(savedInstanceState==null)
+        navController.navigate(R.id.navigation_tasks)
     }
 
     override fun onStart() {
@@ -139,9 +144,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loginOK(){
-        Log.d(Constants.TAG, "INIT")
-        app.init()
         navController.navigate(R.id.navigation_tasks)
+        app.settingsModel.init()
+        app.calendarPageModel.init()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
