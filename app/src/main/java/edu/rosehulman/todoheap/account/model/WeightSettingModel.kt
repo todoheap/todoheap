@@ -1,10 +1,10 @@
 package edu.rosehulman.todoheap.account.model
 
 class WeightSettingModel(
-    var dueTimeWeight:Float = 0f,
-    var priorityWeight:Float = 0f,
-    var procrastinationWeight:Float = 0f,
-    var enjoyabilityWeight:Float = 0f,
-    var workloadWeight:Float = 0f
+    var dueTimeWeight:Int = 0,
+    var priorityWeight:Int = 0,
+    var procrastinationWeight:Int = 0,
+    var enjoyabilityWeight:Int = 0,
+    var workloadWeight:Int = 0
 ) {
 }

@@ -20,12 +20,11 @@ class SettingsModel {
     var freeNotificationTime: Int = 0
     var scheduledNotificationTime: Int = 0
 
-    var dueTimeWeight = 0f
-
-    var priorityWeight = 0f
-    var procrastinationWeight = 0f
-    var enjoyabilityWeight = 0f
-    var workloadWeight = 0f
+    var dueTimeWeight = 0
+    var priorityWeight = 0
+    var procrastinationWeight = 0
+    var enjoyabilityWeight = 0
+    var workloadWeight = 0
 
     fun updateWeightDB(value: Float) {
         Log.d("WeightDebug", "$dueTimeWeight, $value")
