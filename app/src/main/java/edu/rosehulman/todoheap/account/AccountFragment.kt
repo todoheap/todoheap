@@ -58,6 +58,8 @@ class AccountFragment : Fragment() {
         initSpinner(binding.freeNotificationSpinner, R.array.free_notification_spinner_options)
         initSpinner(binding.scheduledNotificationSpinner, R.array.scheduled_notification_spinner_options)
 
+
+
         return binding.root
     }
 

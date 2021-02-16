@@ -157,13 +157,12 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     />
-                <com.google.android.material.slider.Slider
+                <SeekBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:valueFrom="-1"
-                    android:valueTo="1"
-                    android:value="@{settings.dueTimeWeight}"
-                    app:labelBehavior="floating"
+                    android:min="-100"
+                    android:max="100"
+                    android:progress="@{settings.dueTimeWeight}"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -172,13 +171,12 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     />
-                <com.google.android.material.slider.Slider
+                <SeekBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:valueFrom="-1"
-                    android:valueTo="1"
-                    android:value="@{settings.priorityWeight}"
-                    app:labelBehavior="floating"
+                    android:min="-100"
+                    android:max="100"
+                    android:progress="@{settings.priorityWeight}"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -187,13 +185,12 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     />
-                <com.google.android.material.slider.Slider
+                <SeekBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:valueFrom="-1"
-                    android:valueTo="1"
-                    android:value="@{settings.procrastinationWeight}"
-                    app:labelBehavior="floating"
+                    android:min="-100"
+                    android:max="100"
+                    android:progress="@{settings.procrastinationWeight}"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -202,13 +199,12 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     />
-                <com.google.android.material.slider.Slider
+                <SeekBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:valueFrom="-1"
-                    android:valueTo="1"
-                    android:value="@{settings.enjoyabilityWeight}"
-                    app:labelBehavior="floating"
+                    android:min="-100"
+                    android:max="100"
+                    android:progress="@{settings.enjoyabilityWeight}"
                     />
                 <TextView
                     android:layout_width="wrap_content"
@@ -216,14 +212,14 @@
                     android:text="Workload"
                     android:textColor="@color/black"
                     android:textSize="18sp"
+
                     />
-                <com.google.android.material.slider.Slider
+                <SeekBar
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:valueFrom="-1"
-                    android:valueTo="1"
-                    android:value="@{settings.workloadWeight}"
-                    app:labelBehavior="floating"
+                    android:min="-100"
+                    android:max="100"
+                    android:progress="@{settings.workloadWeight}"
                     />
 
             </LinearLayout>
