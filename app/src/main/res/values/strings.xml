@@ -93,20 +93,13 @@
     <string name="text_conflict_one_sitting">One Sitting Conflict</string>
 
     <string-array name="free_notification_spinner_options">
-        <item>Once per Hour</item>
-        <item>Once per 12 Hours</item>
-        <item>Once per Day</item>
-        <item>None at All</item>
-        <item>Once per 5 Seconds</item>
+        <item>Once per 15 minutes</item>
+        <item>Once per hour</item>
+        <item>Once per 12 hours</item>
+        <item>Once per day</item>
     </string-array>
 
-    <string-array name="scheduled_notification_spinner_options">
-        <item>15 Minutes Before</item>
-        <item>One Hour Before</item>
-        <item>2 Hours Before</item>
-        <item>None at All</item>
-        <item>1 Minute before</item>
-    </string-array>
-
+    <string name="notification_summary_title">TodoHeap Summary</string>
+    <string name="format_notification_summary_count">You have %d events on your todo heap</string>
 
 </resources>

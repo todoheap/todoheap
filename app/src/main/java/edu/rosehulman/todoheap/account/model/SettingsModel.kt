@@ -21,13 +21,6 @@ class SettingsModel {
                 updateNotificationSetting()
             }
         }
-    var scheduledNotificationTime: Int = 0
-        set(value) {
-            if(field!=value){
-                field = value
-                updateNotificationSetting()
-            }
-        }
 
     var dueTimeWeight = 0
         set(value) {
@@ -71,7 +64,7 @@ class SettingsModel {
 
 
     private fun updateNotificationSetting(){
-        Database.notificationSettingsDocument?.set(NotificationSettingModel(showNotifications, freeNotificationTime,scheduledNotificationTime))
+        Database.notificationSettingsDocument?.set(NotificationSettingModel(showNotifications, freeNotificationTime))
     }
 
     private fun updateWeightSettings() {
@@ -98,7 +91,6 @@ class SettingsModel {
     private fun initNotifications(model: NotificationSettingModel){
         showNotifications = model.enable
         freeNotificationTime = model.freeNotificationTime
-        scheduledNotificationTime = model.scheduledNotificationTime
     }
 
 

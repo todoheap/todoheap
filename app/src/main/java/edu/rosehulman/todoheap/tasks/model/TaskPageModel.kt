@@ -5,6 +5,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ListenerRegistration
 import edu.rosehulman.todoheap.Constants
+import edu.rosehulman.todoheap.account.model.WeightSettingModel
 import edu.rosehulman.todoheap.data.Database
 import edu.rosehulman.todoheap.common.model.FreeEvent
 import edu.rosehulman.todoheap.common.model.ScheduledEvent
@@ -22,11 +23,11 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
     private var freeEventsListenerRegistration: ListenerRegistration?=null
 
     private var freeHours = 0.0
-    private var dueTimeWeight = 0.5
-    private var priorityWeight = 0.5
-    private var procrastinationWeight = 0.5
-    private var enjoyabilityWeight = 0.5
-    private var workloadWeight = 0.5
+    private var dueTimeWeight = 0.0
+    private var priorityWeight = 0.0
+    private var procrastinationWeight = 0.0
+    private var enjoyabilityWeight = 0.0
+    private var workloadWeight = 0.0
 
     fun init(){
         freeEventsListenerRegistration?.remove()
@@ -191,9 +192,19 @@ class TaskPageModel: RecyclerViewModelProvider<TaskCardViewModel> {
             }
             freeHours = freeSeconds / 3600.0
             Log.d(Constants.TAG,"Loaded Free Hours = $freeHours")
-            //TODO: read weights
+            Database.weightSettingsDocument?.get()?.addOnSuccessListener { value ->
+                val snapshot = value ?: return@addOnSuccessListener
+                val weightObject = snapshot.toObject(WeightSettingModel::class.java) ?: WeightSettingModel()
+                val converter = {v: Int->v/100.0}
+                dueTimeWeight = converter(weightObject.dueTimeWeight)
+                priorityWeight = converter(weightObject.priorityWeight)
+                procrastinationWeight = converter(weightObject.procrastinationWeight)
+                enjoyabilityWeight = converter(weightObject.enjoyabilityWeight)
+                workloadWeight = converter(weightObject.workloadWeight)
+                callback()
+            }
 
-            callback()
+
         }
     }
 

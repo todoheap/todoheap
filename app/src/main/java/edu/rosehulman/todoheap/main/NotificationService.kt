@@ -69,6 +69,7 @@ class NotificationService : Service() {
         initializeTimerTask()
 
         //schedule the timer, after the first 5000ms the TimerTask will run every 10000ms
+
         timer?.schedule(timerTask, 5000, 5 * 1000) //
         //timer.schedule(timerTask, 5000,1000); //
     }
@@ -81,7 +82,7 @@ class NotificationService : Service() {
         }
     }
 
-    fun stoptimertask() {
+    private fun stoptimertask() {
         //stop the timer, if it's not already null
         if (timer != null) {
             timer?.cancel()
@@ -90,6 +91,8 @@ class NotificationService : Service() {
     }
 
     fun sendNotification(){
+
+
         Log.d(Constants.TAG, "start getting settings from db")
         Database.notificationSettingsDocument?.get()?.addOnSuccessListener {
             val enabled = it.toObject(NotificationSettingModel::class.java)?.enable?:false

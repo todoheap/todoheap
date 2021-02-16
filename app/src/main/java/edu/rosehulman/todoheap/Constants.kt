@@ -9,6 +9,7 @@ object Constants {
     const val KEY_SCHEDULED_EVENT = "KEY_SCHEDULED_EVENT"
     const val KEY_SCHEDULED_EVENT_ID = "KEY_SCHEDULED_EVENT_ID"
     const val KEY_SET_TITLE = "KEY_SET_TITLE"
+    const val SUMMARY_WORK = "SUMMARY_WORK"
     const val RC_ADD_FREE_EVENT = 1
     const val RC_EDIT_FREE_EVENT = 2
     const val RC_ADD_SCHEDULED_EVENT = 3
