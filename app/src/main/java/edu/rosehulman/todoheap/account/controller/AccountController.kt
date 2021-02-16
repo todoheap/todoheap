@@ -56,7 +56,6 @@ class AccountController(
         val loginIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(providers)
-            .setLogo(R.drawable.common_google_signin_btn_icon_light)
             .setTheme(R.style.Theme_TodoHeap)
             .build()
         //loginIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK

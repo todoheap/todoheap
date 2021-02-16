@@ -102,7 +102,7 @@
     <string name="notification_summary_title">TodoHeap Summary</string>
     <string name="format_notification_summary_count">You have %d events on your todo heap</string>
     <string name="form_notification">Summary Notification</string>
-    <string name="form_notification_description">Enable TodoHeap to send summary by nitofication</string>
+    <string name="form_notification_description">Enable TodoHeap to send summary by notification</string>
     <string name="setting_sorting_preference">Sorting Preference</string>
     <string name="form_notification_summary_description">How often should we give you a summary?</string>
     <string name="form_enjoyability">Enjoyability</string>
@@ -117,8 +117,8 @@
     <string name="form_priority">Priority</string>
     <string name="form_priority_order_neg">Less important first</string>
     <string name="form_priority_order_pos">More important first</string>
-    <string name="form_procrastination">Procrasination</string>
-    <string name="form_procrasitnation_order_neg">Against Event Setting</string>
-    <string name="form_procrastination_order_pos">Follow Event Setting</string>
+    <string name="form_procrastination">Schedule "As Soon As Possible"</string>
+    <string name="form_procrastination_order_neg">Last</string>
+    <string name="form_procrastination_order_pos">First</string>
 
 </resources>

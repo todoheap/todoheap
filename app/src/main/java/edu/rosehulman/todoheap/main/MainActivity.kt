@@ -79,11 +79,6 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         accountController.setupListener()
         WorkManager.getInstance(this).cancelUniqueWork(Constants.SUMMARY_WORK)
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//
-//        }
-        //stopService(Intent(this, NotificationService::class.java))
     }
 
     override fun onStop() {
@@ -116,19 +111,7 @@ class MainActivity : AppCompatActivity() {
             WorkManager.getInstance(this).cancelUniqueWork(Constants.SUMMARY_WORK)
         }
 
-
-        //if(app.settingsModel.showNotifications)
-       //     startService(Intent(this, NotificationService::class.java))
     }
-
-//    override fun onDestroy() {
-//        //startService(Intent(this, NotificationService::class.java))
-////        val broadcastIntent = Intent()
-////        broadcastIntent.action = "restartservice"
-////        broadcastIntent.setClass(this, Restarter::class.java)
-////        this.sendBroadcast(broadcastIntent)
-//        super.onDestroy()
-//    }
 
     private fun initApp() {
         val taskPageModel = TaskPageModel()
