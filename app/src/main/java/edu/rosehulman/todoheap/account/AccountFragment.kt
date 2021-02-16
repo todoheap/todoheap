@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -53,7 +55,20 @@ class AccountFragment : Fragment() {
         }
         binding.settings = activity.app.settingsModel
 
+        initSpinner(binding.freeNotificationSpinner, R.array.free_notification_spinner_options)
+        initSpinner(binding.scheduledNotificationSpinner, R.array.scheduled_notification_spinner_options)
 
         return binding.root
+    }
+
+    private fun initSpinner(spinner: Spinner, resId: Int) {
+        ArrayAdapter.createFromResource(
+            activity,
+            resId,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
     }
 }

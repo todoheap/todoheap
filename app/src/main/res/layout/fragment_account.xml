@@ -59,8 +59,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <!-- Section Header -->
@@ -104,7 +108,126 @@
                         />
                 </RelativeLayout>
 
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="How often should we give you a summary?"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    />
+                <Spinner
+                    android:id="@+id/free_notification_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:focusableInTouchMode="true"
+                    android:selectedItemPosition="@{settings.freeNotificationTime}"
+                    />
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Schedule Notifications?"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    />
+                <Spinner
+                    android:id="@+id/scheduled_notification_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:focusableInTouchMode="true"
+                    android:selectedItemPosition="@{settings.scheduledNotificationTime}"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sort Weight Settings"
+                    android:textColor="@color/black"
+                    android:padding="10dp"
+                    android:textSize="22sp"
+                    />
+
+                <!-- Sorting Settings Below Here -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Due Time"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    />
+                <com.google.android.material.slider.Slider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:valueFrom="-1"
+                    android:valueTo="1"
+                    android:value="@{settings.dueTimeWeight}"
+                    app:labelBehavior="floating"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Priority"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    />
+                <com.google.android.material.slider.Slider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:valueFrom="-1"
+                    android:valueTo="1"
+                    android:value="@{settings.priorityWeight}"
+                    app:labelBehavior="floating"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Procrastination"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    />
+                <com.google.android.material.slider.Slider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:valueFrom="-1"
+                    android:valueTo="1"
+                    android:value="@{settings.procrastinationWeight}"
+                    app:labelBehavior="floating"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Enjoyability"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    />
+                <com.google.android.material.slider.Slider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:valueFrom="-1"
+                    android:valueTo="1"
+                    android:value="@{settings.enjoyabilityWeight}"
+                    app:labelBehavior="floating"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Workload"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    />
+                <com.google.android.material.slider.Slider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:valueFrom="-1"
+                    android:valueTo="1"
+                    android:value="@{settings.workloadWeight}"
+                    app:labelBehavior="floating"
+                    />
+
             </LinearLayout>
+        </ScrollView>
 
         </androidx.cardview.widget.CardView>
     </LinearLayout>
