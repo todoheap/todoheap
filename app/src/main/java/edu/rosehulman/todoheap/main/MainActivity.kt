@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
         navView.setupWithNavController(navController)
 
-        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+        navController.addOnDestinationChangedListener { _, destination, _ ->
             if(destination.id==R.id.navigation_account){
                 binding.fab.hide()
             }else{
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
             val workRequest =  when(app.settingsModel.freeNotificationTime){
                 0 -> {
                     // 15 minutes
-                    PeriodicWorkRequestBuilder<SummaryWorker>(15, TimeUnit.MINUTES).setInitialDelay(15, TimeUnit.MINUTES).build()
+                    PeriodicWorkRequestBuilder<SummaryWorker>(15, TimeUnit.MINUTES).setInitialDelay(1, TimeUnit.MINUTES).build()
                 }
                 1 -> {
                     // 1 hour

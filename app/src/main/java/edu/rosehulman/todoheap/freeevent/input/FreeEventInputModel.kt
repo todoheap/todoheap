@@ -41,7 +41,7 @@ data class FreeEventInputModel(
 
     fun copyFromEvent(event: FreeEvent){
         eventName = event.name
-        location = event.location?:""
+        location = event.location
         val deadline = event.deadline
         if(deadline!=null){
             TimestampUtil.decomposeFields(deadline){ year, month, day, hour, minute,_ ->

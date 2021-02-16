@@ -117,7 +117,7 @@
     <string name="form_priority">Priority</string>
     <string name="form_priority_order_neg">Less important first</string>
     <string name="form_priority_order_pos">More important first</string>
-    <string name="form_procrastination">Schedule "As Soon As Possible"</string>
+    <string name="form_procrastination">Schedule \"As Soon As Possible\"</string>
     <string name="form_procrastination_order_neg">Last</string>
     <string name="form_procrastination_order_pos">First</string>
 

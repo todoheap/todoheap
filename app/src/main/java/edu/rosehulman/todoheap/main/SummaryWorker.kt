@@ -23,7 +23,7 @@ class SummaryWorker(
 
         //get summary
         Log.d(Constants.TAG, "start getting settings from db")
-        Database.notificationSettingsDocument?.get()?.addOnSuccessListener {
+        Database.notificationSettingsDocument?.get()?.addOnSuccessListener { it ->
             val enabled = it.toObject(NotificationSettingModel::class.java)?.enable?:false
             Log.d(Constants.TAG, "got db $enabled")
             if(!enabled) return@addOnSuccessListener

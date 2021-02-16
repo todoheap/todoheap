@@ -85,7 +85,7 @@ class CalendarPageModel: RecyclerViewModelProvider<CalendarCardViewModel> {
                             if(TimestampUtil.compare(event.startTime, selectedDayTimestamp)>=0 && TimestampUtil.compare(event.startTime,nextDayOfSelectedDayTimestamp)<=0){
                                 //event is on the selected day
                                 shouldAdd = true
-                            }else if(TimestampUtil.compare(event.endTime,nextDayOfSelectedDayTimestamp) <=0&&event.isRepeatingOn(dayOfWeekIndex)){
+                            }else if(TimestampUtil.compare(event.endTime,selectedDayTimestamp) >=0&&event.isRepeatingOn(dayOfWeekIndex)){
                                 shouldAdd = true
                             }
                             if(shouldAdd) {
