@@ -1,12 +1,9 @@
 package edu.rosehulman.todoheap.account.model
 
 import android.util.Log
-import android.widget.SeekBar
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ListenerRegistration
 import edu.rosehulman.todoheap.Constants
 import edu.rosehulman.todoheap.data.Database
-import edu.rosehulman.todoheap.databinding.FragmentAccountBinding
 
 class SettingsModel {
     var showNotifications = false
@@ -33,55 +30,57 @@ class SettingsModel {
         }
 
     var dueTimeWeight = 0
+        set(value) {
+            if(field!=value){
+                field = value
+                updateWeightSettings()
+            }
+        }
 
     var priorityWeight = 0
+        set(value) {
+        if(field!=value){
+            field = value
+            updateWeightSettings()
+        }
+    }
 
     var procrastinationWeight = 0
+        set(value) {
+        if(field!=value){
+            field = value
+            updateWeightSettings()
+        }
+    }
 
     var enjoyabilityWeight = 0
+        set(value) {
+        if(field!=value){
+            field = value
+            updateWeightSettings()
+        }
+    }
 
     var workloadWeight = 0
-//        set(value) {
-//            if(field!=value){
-//                field = value
-//                updateWeightSettings()
-//            }
-//        }
-
-    var isSeekBarMoving = false
-
-    var seekBarChangeListener = object: SeekBar.OnSeekBarChangeListener{
-        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            updateWeightSettings()
-            Log.d(Constants.TAG, "weights changed")
+        set(value) {
+            if(field!=value){
+                field = value
+                updateWeightSettings()
+            }
         }
 
-        override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            //isSeekBarMoving = true
-            Log.d(Constants.TAG,"Starts moving")
-        }
-
-        override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            //isSeekBarMoving = false
-            
-            Log.d(Constants.TAG,"Stops moving")
-        }
-
-    }
 
     private fun updateNotificationSetting(){
         Database.notificationSettingsDocument?.set(NotificationSettingModel(showNotifications, freeNotificationTime,scheduledNotificationTime))
     }
 
     private fun updateWeightSettings() {
-        if(isSeekBarMoving)return
         Database.weightSettingsDocument?.set(WeightSettingModel(
                 dueTimeWeight, priorityWeight,procrastinationWeight,enjoyabilityWeight,workloadWeight
         ))
     }
 
     private var listenerRegistration: ListenerRegistration?=null
-    private var weightListenerRegistration: ListenerRegistration?=null
 
     fun init(){
         initDBListeners()
@@ -103,9 +102,8 @@ class SettingsModel {
     }
 
 
-    fun initDBListeners(){
+    private fun initDBListeners(){
         listenerRegistration?.remove()
-        weightListenerRegistration?.remove()
         listenerRegistration = Database.notificationSettingsDocument?.addSnapshotListener { value, error ->
             if(error!=null) {
                 Log.e(Constants.TAG, "Error in SettingsModel: $error")
@@ -115,12 +113,8 @@ class SettingsModel {
             val model = snapshot.toObject(NotificationSettingModel::class.java)?:NotificationSettingModel()
             initNotifications(model)
         }
-        weightListenerRegistration = Database.weightSettingsDocument?.addSnapshotListener { value, error ->
-            if (error != null) {
-                Log.e(Constants.TAG, "Error in SettingsModel weight listener: $error")
-                return@addSnapshotListener
-            }
-            val snapshot = value ?: return@addSnapshotListener
+        Database.weightSettingsDocument?.get()?.addOnSuccessListener { value ->
+            val snapshot = value ?: return@addOnSuccessListener
             val weightObject = snapshot.toObject(WeightSettingModel::class.java) ?: WeightSettingModel()
             initSliderValues(weightObject)
 

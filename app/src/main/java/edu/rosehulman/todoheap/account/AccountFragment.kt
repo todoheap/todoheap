@@ -54,13 +54,6 @@ class AccountFragment : Fragment() {
             }
         }
         binding.settings = activity.app.settingsModel
-        activity.app.settingsModel.seekBarChangeListener.let{
-            binding.dueTimeSeekbar.setOnSeekBarChangeListener(it)
-            binding.prioritySeekbar.setOnSeekBarChangeListener(it)
-            binding.procrastinationSeekbar.setOnSeekBarChangeListener(it)
-            binding.enjoyabilitySeekbar.setOnSeekBarChangeListener(it)
-            binding.workloadSeekbar.setOnSeekBarChangeListener(it)
-        }
 
 
         initSpinner(binding.freeNotificationSpinner, R.array.free_notification_spinner_options)
